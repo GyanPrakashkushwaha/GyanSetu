@@ -1,3 +1,4 @@
+```
 teacher-ai-platform/
 ├── app/
 │   ├── main.py                     # FastAPI application instance & lifespan events
@@ -35,3 +36,4 @@ teacher-ai-platform/
 ├── Dockerfile                      # Application containerization
 ├── requirements.txt                # Python dependencies
 └── README.md                       # Setup, high-level architecture diagram, and orchestration explanation [cite: 27, 28]
+```
