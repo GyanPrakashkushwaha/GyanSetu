@@ -1,6 +1,5 @@
 
-import os
-from typing import Type, TypeVar
+from typing import Type, TypeVar, Any
 from pydantic import BaseModel
 from tenacity import (
     retry,
@@ -11,9 +10,9 @@ from tenacity import (
 from langchain_openai import ChatOpenAI
 from openai import RateLimitError, APIConnectionError
 
-from app.core.logger import app_logger
-from app.core.exceptions import LLMGenerationError
-
+from core.logger import app_logger
+from core.exceptions import LLMGenerationError
+from core.config import OPENAI_API_KEY
 # Type variable for Pydantic schemas
 T = TypeVar('T', bound=BaseModel)
 
@@ -28,7 +27,7 @@ class LLMGateway:
         self.llm = ChatOpenAI(
             model=self.model_name,
             temperature=0.2,
-            api_key=os.getenv("OPENAI_API_KEY")
+            api_key=OPENAI_API_KEY
         )
 
     @retry(
@@ -37,6 +36,32 @@ class LLMGateway:
         retry=retry_if_exception_type((RateLimitError, APIConnectionError)),
         reraise=True
     )
+    def generate(self, prompt: Any, job_id: str) -> str:
+        """
+        Executes a standard LLM call returning raw text.
+        Accepts a string, a list of messages, or a formatted ChatPromptValue.
+        """
+        app_logger.info(
+            "Sending standard request to LLM Gateway", 
+            extra={"extra_info": {"job_id": job_id, "model": self.model_name}}
+        )
+        
+        try:
+            result = self.llm.invoke(prompt)
+            
+            return result.content
+            
+        except RateLimitError as e:
+            app_logger.warning(f"Rate limit hit, triggering backoff...", extra={"extra_info": {"job_id": job_id}})
+            raise e 
+            
+        except Exception as e:
+            app_logger.error(f"Fatal LLM Error: {str(e)}", extra={"extra_info": {"job_id": job_id}})
+            raise LLMGenerationError(
+                message="Failed to generate standard text from LLM", 
+                details={"error": str(e), "job_id": job_id}
+            )
+            
     def generate_structured(self, prompt: str, response_model: Type[T], job_id: str) -> T:
         """
         Executes an LLM call forcing a structured Pydantic output.

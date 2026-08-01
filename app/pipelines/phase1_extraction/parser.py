@@ -7,14 +7,13 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 
 from llama_cloud import LlamaCloud
-from app.core.logger import app_logger
+from core.logger import app_logger
 from core.exceptions import DocumentParsingError
 from core.config import LLAMA_CLOUD_API_KEY
 
 class DocumentParser:
     def __init__(self):
         self.FILE_ID = None
-        
         if not LLAMA_CLOUD_API_KEY:
             app_logger.warning(
                 "LLAMA_CLOUD_API_KEY is missing. Parser will fail.", 
