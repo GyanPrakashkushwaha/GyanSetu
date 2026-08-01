@@ -22,17 +22,17 @@ class LLMGateway:
     Centralized Gateway for all LLM interactions. 
     Enforces retry logic, logging, and dependency inversion.
     """
+    MAX_RETRIES = 5
     def __init__(self):
-        self.model_name = "gpt-4o"
+        self.model_name = "gpt-4o-mini"
         self.llm = ChatOpenAI(
             model=self.model_name,
             temperature=0.2,
             api_key=os.getenv("OPENAI_API_KEY")
         )
-        self.MAX_RETRIES = 5
 
     @retry(
-        stop=stop_after_attempt(self.MAX_RETRIES),
+        stop=stop_after_attempt(MAX_RETRIES),
         wait=wait_exponential_jitter(initial=1, max=60, exp_base=2, jitter=1),
         retry=retry_if_exception_type((RateLimitError, APIConnectionError)),
         reraise=True
