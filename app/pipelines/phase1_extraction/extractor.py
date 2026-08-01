@@ -15,7 +15,6 @@ class KnowledgeExtractor:
         # We use a low temperature for deterministic, factual extraction
         self.llm = ChatOpenAI(model=model_name, temperature=0.1)
         
-        # Bind our Pydantic schemas to the LLM to guarantee JSON structure
         self.metadata_llm = self.llm.with_structured_output(EducationalMetadata)
         self.knowledge_llm = self.llm.with_structured_output(ExtractedKnowledge)
 

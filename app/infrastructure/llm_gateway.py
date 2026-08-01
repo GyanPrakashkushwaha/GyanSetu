@@ -31,7 +31,6 @@ class LLMGateway:
         )
         self.MAX_RETRIES = 5
 
-    # Tenacity Decorator: Max 5 retries, exponential backoff starting at 1s up to 60s, with jitter.
     @retry(
         stop=stop_after_attempt(self.MAX_RETRIES),
         wait=wait_exponential_jitter(initial=1, max=60, exp_base=2, jitter=1),
@@ -54,10 +53,9 @@ class LLMGateway:
             
         except RateLimitError as e:
             app_logger.warning(f"Rate limit hit, triggering backoff...", extra={"extra_info": {"job_id": job_id}})
-            raise e # Let Tenacity catch it and retry
+            raise e 
             
         except Exception as e:
-            # For non-retryable errors (like prompt too large, or Pydantic validation failure)
             app_logger.error(f"Fatal LLM Error: {str(e)}", extra={"extra_info": {"job_id": job_id}})
             raise LLMGenerationError(
                 message="Failed to generate structured data from LLM", 

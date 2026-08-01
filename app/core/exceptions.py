@@ -1,5 +1,3 @@
-from exception import Exception
-
 class TeacherAIException(Exception):
     """
     Base exception for the Teacher AI Platform.
