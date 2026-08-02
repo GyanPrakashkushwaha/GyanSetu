@@ -35,7 +35,26 @@ class TeachingPlan(BaseModel):
     rationale: str = Field(..., description="Brief pedagogical reasoning for this pacing strategy.")
     periods: List[TeachingPeriod] = Field(..., description="The ordered sequence of teaching periods.")
     
-# class ContentGeneration(BaseModel):
+class LessonScript(BaseModel):
+    introduction: str = Field(..., description="A 3-minute engaging hook to start the class.")
+    main_body: List[str] = Field(..., description="Step-by-step teaching points explaining the core concepts.")
+    conclusion: str = Field(..., description="A brief summary to wrap up the period.")
+
+class ClassroomActivity(BaseModel):
+    title: str = Field(..., description="Catchy title for the activity.")
+    duration_minutes: int = Field(..., description="Estimated time for the activity (e.g., 10-15 mins).")
+    materials_needed: List[str] = Field(..., description="List of items needed. Return empty list if none.")
+    instructions: List[str] = Field(..., description="Step-by-step instructions for the teacher to conduct the activity.")
+
+class FormativeAssessment(BaseModel):
+    questions: List[str] = Field(..., description="2-3 quick questions (MCQ or short answer) to test understanding.")
+    answer_key: List[str] = Field(..., description="The correct answers for the teacher's reference.")
+
+class PeriodContent(BaseModel):
+    period_number: int = Field(..., description="The sequential number of this period (must match the planner).")
+    script: LessonScript = Field(..., description="The dialogue and teaching steps.")
+    activity: ClassroomActivity = Field(..., description="The engaging classroom activity.")
+    assessment: FormativeAssessment = Field(..., description="The end-of-period check for understanding.")
 
 class TeacherKnowledgePackage(BaseModel):
     metadata: EducationalMetadata

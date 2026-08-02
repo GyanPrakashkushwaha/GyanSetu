@@ -1,8 +1,10 @@
 import uuid
+import json
 from pathlib import Path
 from rich import print as p
 from typing import TypedDict
 import psycopg_pool
+from pydantic import BaseModel
 
 from llama_index.core import SimpleDirectoryReader
 from langgraph.checkpoint.postgres import PostgresSaver
@@ -11,6 +13,13 @@ from pipelines.phase1_extraction.parser import DocumentParser
 from pipelines.orchestrator import build_tkp_pipeline
 from models.schemas import EducationalMetadata, ExtractedKnowledge
 from core.config import DB_CONNECTION_STRING 
+
+
+class StateEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, BaseModel):
+            return obj.model_dump() if hasattr(obj, 'model_dump') else obj.dict()
+        return super().default(obj)
 
 class PipelineState(TypedDict):
     job_id : str
@@ -63,5 +72,15 @@ if __name__=="__main__":
         workflow = build_tkp_pipeline(checkpointer=checkpointer)
         config = {"configurable": {"thread_id": new_job_id}}
         
+        # 1. Run the pipeline
         res = workflow.invoke(initial_state, config=config)
+        
+        # 2. Print output to terminal
         p(res)
+        
+        # 3. Dump the result to a JSON file
+        output_filename = f"{new_job_id}_pipeline_result.json"
+        with open(output_filename, "w", encoding="utf-8") as f:
+            json.dump(res, f, cls=StateEncoder, indent=4, ensure_ascii=False)
+            
+        print(f"\n✅ Successfully saved state to {output_filename}")

@@ -76,7 +76,43 @@ class Prompts:
                 "<misconceptions>\n{misconceptions}\n</misconceptions>"
             ))
         ])
-        
+    class Generation:
+        CLASSROOM_CONTENT_TEMPLATE = ChatPromptTemplate.from_messages([
+            ("system", (
+                "Role: You are an Expert Instructional Designer and Master Pedagogical Content Creator.\n"
+                "Task: Generate comprehensive, classroom-ready teaching material for a specific teaching period. You must ground your output strictly in the provided context source material.\n\n"
+                "Content Generation Guidelines & Strict Constraints:\n"
+                "1. Language & Tone: You MUST write all content in the exact 'language' specified in the metadata, matching the academic tone and vocabulary complexity of the target 'grade' and 'difficulty'.\n"
+                "2. Strict Context Grounding: Base your teacher script, blackboard notes, and homework explanations strictly on the text provided in the `<context>`. Do not introduce outside facts or hallucinate examples that contradict the source material.\n"
+                "3. Artifact Requirements:\n"
+                "   - entry_ticket: A 5-minute engaging warm-up hook or diagnostic question based on the source context.\n"
+                "   - teacher_script: A step-by-step spoken explanation for the teacher to deliver, using analogies directly inspired by the source text.\n"
+                "   - blackboard_notes: Clean, structured hierarchical bullet points representing what goes on the board.\n"
+                "   - classroom_activity: An interactive, practical, or collaborative student activity designed for a classroom setting.\n"
+                "   - checkpoint_questions: Formative questions to ask mid-lesson to verify comprehension.\n"
+                "   - exit_ticket: A final quick evaluation question to confirm the learning outcome was achieved.\n"
+                "   - homework: Meaningful practice reinforcing the core concepts found in the context.\n"
+                "   - mentor_moment: A short, inspiring real-world motivational story or connection relevant to the topic."
+            )),
+            ("human", (
+                "Target Audience & Document Context:\n"
+                "<metadata>\n"
+                "{metadata_json}\n"
+                "</metadata>\n\n"
+                "Retrieved Source Material (Context):\n"
+                "<context>\n"
+                "{context}\n"
+                "</context>\n\n"
+                "Period Specification:\n"
+                "<period_context>\n"
+                "- Period Number: {period_number}\n"
+                "- Focus Topic: {focus_topic}\n"
+                "- Learning Outcome: {learning_outcome}\n"
+                "- Concepts Covered: {concepts_covered}\n"
+                "</period_context>\n\n"
+                "Generate the detailed classroom content package for this period."
+            ))
+        ])
     class Assessment:
         TEMPLATE = ChatPromptTemplate.from_messages([
             ("system", (
