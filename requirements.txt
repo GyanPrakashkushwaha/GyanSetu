@@ -3,6 +3,7 @@ langchain
 langchain-core
 langchain-community
 ddgs
+langgraph-checkpoint-postgres
 
 # OpenAI Integration
 langchain-openai
@@ -39,3 +40,5 @@ llama-index
 
 # Database
 # sqlite3
+psycopg-pool
+psycopg-binary
