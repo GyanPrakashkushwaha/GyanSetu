@@ -42,3 +42,5 @@ llama-index
 # sqlite3
 psycopg-pool
 psycopg-binary
+pgvector
+psycopg2

@@ -21,6 +21,29 @@ class PipelineState(TypedDict):
     current_stage: str
 
 if __name__=="__main__":
+    # from sqlalchemy import text
+    # from models.database import engine, Base
+    # from core.logger import app_logger
+
+    # def init_database():
+    #     app_logger.info("Connecting to database to sync schemas...")
+        
+    #     with engine.connect() as conn:
+    #         # 1. CRITICAL: Enable the pgvector extension FIRST
+    #         app_logger.info("Enabling pgvector extension...")
+    #         conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+    #         conn.commit()
+            
+    #     # 2. Create the tables (this translates your Python classes into SQL CREATE TABLE commands)
+    #     app_logger.info("Creating tables...")
+    #     Base.metadata.create_all(bind=engine)
+        
+    #     app_logger.info("Database sync complete! 'document_chunks' table is ready.")
+
+    # # Run the initialization
+    # init_database()
+    
+    
     documents = SimpleDirectoryReader(input_files=[r"../data/63d00cdb-f5fb-4d86-9a8e-4cea460455f1.md"]).load_data()
     text = documents[0].text
     new_job_id = str(uuid.uuid4())

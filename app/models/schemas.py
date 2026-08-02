@@ -23,7 +23,6 @@ class ExtractedKnowledge(BaseModel):
     formulae: List[str] = Field(..., description="Any mathematical or scientific formulas found. Return an empty list if none exist.")
     misconceptions: List[str] = Field(..., description="Common student misconceptions related to this topic.")
 
-
 class TeachingPeriod(BaseModel):
     period_number: int = Field(..., description="The sequential number of the period.")
     focus_topic: str = Field(..., description="The main overarching concept for this period.")
@@ -36,7 +35,8 @@ class TeachingPlan(BaseModel):
     rationale: str = Field(..., description="Brief pedagogical reasoning for this pacing strategy.")
     periods: List[TeachingPeriod] = Field(..., description="The ordered sequence of teaching periods.")
     
-    
+# class ContentGeneration(BaseModel):
+
 class TeacherKnowledgePackage(BaseModel):
     metadata: EducationalMetadata
     knowledge_base: ExtractedKnowledge
