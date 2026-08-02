@@ -34,7 +34,7 @@ class KnowledgeExtractor:
             )
             raise ExtractionError(f"Failed to extract metadata: {str(e)}")
 
-    def extract_knowledge(self, raw_markdown: str, metadata: EducationalMetadata, job_id: str = None) -> ExtractedKnowledge:
+    def extract_knowledge(self, metadata_json, raw_markdown: str, metadata: EducationalMetadata, job_id: str = None) -> ExtractedKnowledge:
         job_id = job_id or f"know_{uuid.uuid4().hex[:8]}"
         
         app_logger.info(
@@ -43,10 +43,8 @@ class KnowledgeExtractor:
         )
         
         messages = Prompts.Extraction.KNOWLEDGE_EXTRACTION_TEMPLATE.invoke({
-            "text": raw_markdown,
-            "grade": metadata.grade,
-            "difficulty": metadata.difficulty,
-            "subject": metadata.subject
+             "metadata_json": metadata_json,
+            "text": raw_markdown
         })
         
         try:

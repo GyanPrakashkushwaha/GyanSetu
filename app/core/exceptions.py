@@ -19,6 +19,11 @@ class ExtractionError(TeacherAIException):
     def __init__(self, message: str, details: dict | None = None):
         super().__init__(message, status_code=500, details=details)
 
+class TeachingPlanError(TeacherAIException):
+    """Raised when Stage 3 fails to plan multi period lessons."""
+    def __init__(self, message: str, details: dict | None = None):
+        super().__init__(message, status_code=500, details=details)
+
 class LLMGenerationError(TeacherAIException):
     """Raised when the LLM gateway fails (e.g., timeouts, rate limits)."""
     def __init__(self, message: str, details: dict | None = None):

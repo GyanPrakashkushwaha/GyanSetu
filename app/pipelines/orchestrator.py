@@ -2,9 +2,14 @@ import uuid
 from core.logger import app_logger
 from typing import TypedDict, Annotated
 from langgraph.graph import StateGraph, START, END
-from models.schemas import EducationalMetadata, ExtractedKnowledge, TeacherKnowledgePackage
+from models.schemas import (EducationalMetadata, 
+                            ExtractedKnowledge, 
+                            TeacherKnowledgePackage,
+                            TeachingPlan)
 from pipelines.phase1_extraction.extractor import knowledge_extractor
-from core.exceptions import ExtractionError
+from pipelines.phase2_generation.planner import teaching_planner
+from core.exceptions import (ExtractionError, 
+                            TeachingPlanError)
 from langgraph.checkpoint.postgres import PostgresSaver
 
 class PipelineState(TypedDict):
@@ -12,6 +17,7 @@ class PipelineState(TypedDict):
     raw_text: str
     metadata: EducationalMetadata | None
     knowledge_base: ExtractedKnowledge | None
+    teaching_plan: TeachingPlan | None
     validation_errors: list[str]
     current_stage: str
 
@@ -47,6 +53,7 @@ def knowledge_extraction_node(state: PipelineState) -> dict:
     )
     try:
         result: ExtractedKnowledge = knowledge_extractor.extract_knowledge(
+            metadata_json=state["metadata"],
             raw_markdown=state["raw_text"],
             metadata=state["metadata"],
             job_id=job_id
@@ -63,6 +70,36 @@ def knowledge_extraction_node(state: PipelineState) -> dict:
         raise ExtractionError(message="Stage 3 Failed", details={"job_id": job_id})
 
 
+def teaching_planner_node(state: PipelineState) -> dict:
+    job_id = state["job_id"]
+    
+    app_logger.info(
+        "Starting Teaching Planning", 
+        extra={"extra_info": {"job_id": job_id, "stage": 3}}
+    )
+    try:
+        result: TeachingPlan = teaching_planner.planner(
+            metadata_json=state["metadata"],
+            prerequisites=state["knowledge_base"].prerequisites if state["knowledge_base"] else [],
+            learning_objectives=state["knowledge_base"].learning_objectives if state["knowledge_base"] else [],
+            concepts=state["knowledge_base"].concepts if state["knowledge_base"] else [],
+            key_terms=state["knowledge_base"].key_terms if state["knowledge_base"] else [],
+            formulae=state["knowledge_base"].formulae if state["knowledge_base"] else [],
+            misconceptions=state["knowledge_base"].misconceptions if state["knowledge_base"] else [],
+            job_id=job_id
+        )
+        return {
+            "teaching_plan": result,
+            "current_stage": "Stage 3 Complete"
+        }
+    except Exception as e:
+        app_logger.error(
+            f"Extraction failed: {str(e)}", 
+            extra={"extra_info": {"job_id": job_id}}
+        )
+        raise TeachingPlanError(message="Stage 3 Failed", details={"job_id": job_id})
+
+
 def route_validation(state: PipelineState) -> str:
     if state.get("validation_errors") and len(state["validation_errors"]) > 0:
         logger.warning("Validation failed, routing back for correction.")
@@ -75,9 +112,11 @@ def build_tkp_pipeline(checkpointer: PostgresSaver):
     
     workflow.add_node("classify", educational_classification_node)
     workflow.add_node("extract", knowledge_extraction_node)
+    workflow.add_node("plan", teaching_planner_node)
     
     workflow.add_edge(START, "classify")
     workflow.add_edge("classify", "extract")
-    workflow.add_edge("extract", END)
+    workflow.add_edge("extract", "plan")
+    workflow.add_edge("plan", END)
     
     return workflow.compile(checkpointer=checkpointer)

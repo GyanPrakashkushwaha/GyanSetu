@@ -8,11 +8,12 @@ from tenacity import (
     retry_if_exception_type
 )
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import GoogleGenerativeAI
 from openai import RateLimitError, APIConnectionError
 
 from core.logger import app_logger
 from core.exceptions import LLMGenerationError
-from core.config import OPENAI_API_KEY
+from core.config import OPENAI_API_KEY, GEMINI_API_KEY
 # Type variable for Pydantic schemas
 T = TypeVar('T', bound=BaseModel)
 
@@ -29,6 +30,12 @@ class LLMGateway:
             temperature=0.2,
             api_key=OPENAI_API_KEY
         )
+        # self.model_name = "models/gemini-3.5-flash"
+        # self.llm = GoogleGenerativeAI(
+        #     model=self.model_name,
+        #     temperature=0.2,
+        #     api_key=GEMINI_API_KEY
+        # )
 
     @retry(
         stop=stop_after_attempt(MAX_RETRIES),
@@ -49,7 +56,8 @@ class LLMGateway:
         try:
             result = self.llm.invoke(prompt)
             
-            return result.content
+            # return result
+            return result.content # REPLACE TO THIS WHEN SWICHING TO OPENAI MODEL.
             
         except RateLimitError as e:
             app_logger.warning(f"Rate limit hit, triggering backoff...", extra={"extra_info": {"job_id": job_id}})
