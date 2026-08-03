@@ -134,13 +134,14 @@ def validation_node(state: PipelineState) -> dict:
     job_id = state["job_id"]
     app_logger.info("Starting Stage 9: LLM-as-a-Judge Validation", extra={"extra_info": {"job_id": job_id, "stage": 9}})
     
-    knowledge_base = state.get("knowledge_base")
+    teaching_plan = state.get("teaching_plan")
+    teaching_periods = teaching_plan.periods
     period_contents = state.get("period_contents", [])
         
     try:
         result: ValidationScorecard = validator.validation(
             metadata_json= state["metadata"],
-            knowledge_base= knowledge_base,
+            teaching_periods = teaching_periods,
             period_contents=period_contents,
             job_id=job_id
         )
@@ -188,14 +189,37 @@ def human_intervention_node(state: PipelineState) -> dict:
         "retry_count": state.get("retry_count", 0) + 1,
         "current_stage": "Resuming from Human Feedback"
     }
+
+def retry_generation_node(state: PipelineState):
+    job_id = state["job_id"]
+    app_logger.info("Triggering Map-Reduce Fan-Out for Regeneration", extra={"extra_info": {"job_id": job_id}})
+    
+    plan = state.get("teaching_plan")
+    if not plan or not plan.periods:
+        app_logger.warning("No periods found during retry. Exiting.")
+        return END
+        
+    return [
+        Send("generate_period_content", {
+            "job_id": state["job_id"],
+            "period": p,
+            "metadata": state["metadata"]
+        }) for p in plan.periods
+    ]
     
 def package_tkp_node(state: PipelineState) -> dict:
-    app_logger.info(f"Packaging final TKP for job {state['job_id']}")
-    return {"current_stage": "Pipeline Complete"}
+    job_id = state["job_id"]
+    app_logger.info(f"Assembling final Teacher Knowledge Package", extra={"extra_info": {"job_id": job_id}})
+    
+    return {
+        "current_stage": "Pipeline Complete",
+        "validation_errors": [], 
+        "human_review_required": False
+    }
     
 def build_tkp_pipeline(checkpointer: PostgresSaver):
     workflow = StateGraph(PipelineState)
-    
+
     # Add Nodes
     workflow.add_node("classify", educational_classification_node)
     workflow.add_node("extract", knowledge_extraction_node)
@@ -205,7 +229,9 @@ def build_tkp_pipeline(checkpointer: PostgresSaver):
     workflow.add_node("generate_period_content", generate_period_content_node)
     workflow.add_node("validate", validation_node)
     workflow.add_node("human_intervention", human_intervention_node)
+    workflow.add_node("retry_generation", retry_generation_node)
     workflow.add_node("package_tkp", package_tkp_node)
+
     # Sequential Core Flow
     workflow.add_edge(START, "classify")
     workflow.add_edge("classify", "extract")
@@ -219,11 +245,15 @@ def build_tkp_pipeline(checkpointer: PostgresSaver):
     # Fan-In to END
     workflow.add_edge("generate_period_content", "validate")
 
+
     workflow.add_conditional_edges("validate", route_after_validation, {
         "success": "package_tkp",
-        "self_heal": "generate_period_content",
-        "human_intervention": "human_intervention"
+        "self_heal": "retry_generation",             
+        "human_intervention": "human_intervention" 
     })
-    # workflow.add_edge("generate_period_content", END)    
+    # LangGraph reads those Send objects and dynamically creates temporary edges, shoving the state right back into your generate_period_content workers.
+    workflow.add_edge("human_intervention", "retry_generation") 
+    workflow.add_conditional_edges("retry_generation", fan_out_periods, ["generate_period_content"])
+    workflow.add_edge("package_tkp", END)
     
     return workflow.compile(checkpointer=checkpointer, interrupt_before=["human_intervention"])
