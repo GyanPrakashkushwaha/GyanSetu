@@ -73,6 +73,12 @@ class LearningGapAnalysis(BaseModel):
         description="A comprehensive list of identified learning gaps and their corresponding remediation strategies."
     )
     
+class ValidationScorecard(BaseModel):  
+    is_hallucinated: bool = Field(..., description="True if the generated content includes facts, figures, or concepts NOT present in the original extracted knowledge base. False if perfectly grounded.")
+    pedagogical_score: int = Field(..., ge=1, le=5, description="Score from 1 (terrible) to 5 (excellent) evaluating how well the content matches the target audience's cognitive level and expected tone.")
+    feedback_citations: str = Field(..., description="If rejected or hallucinated, provide exact quotes from the generated text and explain why it failed. If approved, write 'N/A'.")
+    is_approved: bool = Field(..., description="Final verdict. MUST be True ONLY if is_hallucinated is False AND pedagogical_score is 3 or higher. Otherwise, False.")    
+
 class TeacherKnowledgePackage(BaseModel):
     metadata: EducationalMetadata
     knowledge_base: ExtractedKnowledge

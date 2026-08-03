@@ -141,11 +141,32 @@ class Prompts:
                 "Perform the learning gap analysis to help the teacher bridge these specific misunderstandings."
             ))
         ])
-    class Assessment:
-        TEMPLATE = ChatPromptTemplate.from_messages([
+        
+    class Evaluation:
+        LLM_AS_A_JUDGE_TEMPLATE = ChatPromptTemplate.from_messages([
             ("system", (
-                "You are an expert assessment creator.\n"
-                "Always generate output in JSON matching the specified format."
+                "Role: You are an Expert Educational Auditor and Quality Assurance Judge.\n"
+                "Task: Evaluate the AI-generated classroom content against the original source material and target audience metadata to ensure pedagogical safety and accuracy.\n\n"
+                "Evaluation Rubric & Strict Guidelines:\n"
+                "1. Pedagogical Alignment (Score 1-5): Does the vocabulary and complexity of the generated content perfectly match the target 'grade' and 'difficulty' from the metadata?\n"
+                "2. Factuality & Grounding (Score 1-5): Is the generated content strictly supported by the <source_truth>? Penalize hallucinations, fabricated examples, or contradictory statements severely.\n"
+                "3. Completeness (Pass/Fail): Were all the required concepts actually taught in the generated activities?\n"
+                "4. Rationale First: You MUST provide a 1-2 sentence justification for your scores BEFORE outputting the final numerical scores or boolean decisions.\n"
+                "5. Language Compliance: Verify that 100% of the generated content matches the exact 'language' specified in the metadata."
             )),
-            ("human", "Topic: {topic}\nDifficulty: {difficulty}\nQuestion Count: {num_questions}")
+            ("human", (
+                "Target Audience Context:\n"
+                "<metadata>\n"
+                "{metadata_json}\n"
+                "</metadata>\n\n"
+                "Source of Truth (RAG Context & Extracted Knowledge):\n"
+                "<source_truth>\n"
+                "{source_truth}\n"
+                "</source_truth>\n\n"
+                "Generated Classroom Content to Evaluate:\n"
+                "<generated_content>\n"
+                "{generated_content}\n"
+                "</generated_content>\n\n"
+                "Perform your quality assurance evaluation."
+            ))
         ])

@@ -4,7 +4,6 @@ from models.schemas import TeachingPlan, ExtractedKnowledge
 from infrastructure.llm_gateway import llm_gateway
 from core.exceptions import TeachingPlanError
 from core.prompts import Prompts
-from typing import List
 
 
 class TeachingPlanner:

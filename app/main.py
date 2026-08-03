@@ -1,86 +1,154 @@
-import uuid
-import json
-from pathlib import Path
-from rich import print as p
-from typing import TypedDict
-import psycopg_pool
-from pydantic import BaseModel
+# import uuid
+# import json
+# from pathlib import Path
+# from rich import print as p
+# from typing import TypedDict
+# import psycopg_pool
+# from pydantic import BaseModel
 
-from llama_index.core import SimpleDirectoryReader
-from langgraph.checkpoint.postgres import PostgresSaver
+# from llama_index.core import SimpleDirectoryReader
+# from langgraph.checkpoint.postgres import PostgresSaver
 
-from pipelines.phase1_extraction.parser import DocumentParser
-from pipelines.orchestrator import build_tkp_pipeline
-from models.schemas import EducationalMetadata, ExtractedKnowledge
-from core.config import DB_CONNECTION_STRING 
+# from pipelines.phase1_extraction.parser import DocumentParser
+# from pipelines.orchestrator import build_tkp_pipeline
+# from models.schemas import EducationalMetadata, ExtractedKnowledge
+# from core.config import DB_CONNECTION_STRING 
 
 
-class StateEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, BaseModel):
-            return obj.model_dump() if hasattr(obj, 'model_dump') else obj.dict()
-        return super().default(obj)
+# class StateEncoder(json.JSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, BaseModel):
+#             return obj.model_dump() if hasattr(obj, 'model_dump') else obj.dict()
+#         return super().default(obj)
 
-class PipelineState(TypedDict):
-    job_id : str
-    raw_text: str
-    metadata: EducationalMetadata | None
-    knowledge_base: ExtractedKnowledge | None
-    validation_errors: list[str]
-    current_stage: str
+# class PipelineState(TypedDict):
+#     job_id : str
+#     raw_text: str
+#     metadata: EducationalMetadata | None
+#     knowledge_base: ExtractedKnowledge | None
+#     validation_errors: list[str]
+#     current_stage: str
 
-if __name__=="__main__":
-    # from sqlalchemy import text
-    # from models.database import engine, Base
-    # from core.logger import app_logger
+# if __name__=="__main__":
+#     # from sqlalchemy import text
+#     # from models.database import engine, Base
+#     # from core.logger import app_logger
 
-    # def init_database():
-    #     app_logger.info("Connecting to database to sync schemas...")
+#     # def init_database():
+#     #     app_logger.info("Connecting to database to sync schemas...")
         
-    #     with engine.connect() as conn:
-    #         # 1. CRITICAL: Enable the pgvector extension FIRST
-    #         app_logger.info("Enabling pgvector extension...")
-    #         conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
-    #         conn.commit()
+#     #     with engine.connect() as conn:
+#     #         # 1. CRITICAL: Enable the pgvector extension FIRST
+#     #         app_logger.info("Enabling pgvector extension...")
+#     #         conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+#     #         conn.commit()
             
-    #     # 2. Create the tables (this translates your Python classes into SQL CREATE TABLE commands)
-    #     app_logger.info("Creating tables...")
-    #     Base.metadata.create_all(bind=engine)
+#     #     # 2. Create the tables (this translates your Python classes into SQL CREATE TABLE commands)
+#     #     app_logger.info("Creating tables...")
+#     #     Base.metadata.create_all(bind=engine)
         
-    #     app_logger.info("Database sync complete! 'document_chunks' table is ready.")
+#     #     app_logger.info("Database sync complete! 'document_chunks' table is ready.")
 
-    # # Run the initialization
-    # init_database()
+#     # # Run the initialization
+#     # init_database()
     
     
-    documents = SimpleDirectoryReader(input_files=[r"../data/63d00cdb-f5fb-4d86-9a8e-4cea460455f1.md"]).load_data()
-    text = documents[0].text
-    new_job_id = str(uuid.uuid4())
+#     documents = SimpleDirectoryReader(input_files=[r"../data/63d00cdb-f5fb-4d86-9a8e-4cea460455f1.md"]).load_data()
+#     text = documents[0].text
+#     new_job_id = str(uuid.uuid4())
     
-    initial_state = PipelineState(
-        job_id=new_job_id,
-        raw_text=text,
-        metadata=None,
-        knowledge_base=None,
-        validation_errors=[],
-        current_stage="Initialized"
+#     initial_state = PipelineState(
+#         job_id=new_job_id,
+#         raw_text=text,
+#         metadata=None,
+#         knowledge_base=None,
+#         validation_errors=[],
+#         current_stage="Initialized"
+#     )
+    
+#     with psycopg_pool.ConnectionPool(conninfo=DB_CONNECTION_STRING, kwargs={"autocommit": True}) as pool:
+#         checkpointer = PostgresSaver(pool)
+#         checkpointer.setup()
+#         workflow = build_tkp_pipeline(checkpointer=checkpointer)
+#         config = {"configurable": {"thread_id": new_job_id}}
+        
+#         # 1. Run the pipeline
+#         res = workflow.invoke(initial_state, config=config)
+        
+#         # 2. Print output to terminal
+#         p(res)
+        
+#         # 3. Dump the result to a JSON file
+#         output_filename = f"{new_job_id}_pipeline_result.json"
+#         with open(output_filename, "w", encoding="utf-8") as f:
+#             json.dump(res, f, cls=StateEncoder, indent=4, ensure_ascii=False)
+            
+#         print(f"\n✅ Successfully saved state to {output_filename}")
+
+
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
+# Import your routers and custom exceptions
+from api.v1.jobs import router as jobs_router
+from core.exceptions import ExtractionError, LLMGenerationError
+from api.schemas import APIResponse
+
+app = FastAPI(
+    title="GyanSetu Teacher AI API",
+    version="1.0.0",
+    description="Transforms raw documents into structured Teacher Knowledge Packages."
+)
+
+# 1. CORS Configuration (Crucial for Next.js/React frontends)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # In production, restrict this to your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# 2. Register Routers
+app.include_router(jobs_router)
+
+# 3. Global Exception Handlers
+@app.exception_handler(ExtractionError)
+async def extraction_error_handler(request: Request, exc: ExtractionError):
+    return JSONResponse(
+        status_code=422, # Unprocessable Entity
+        content=APIResponse(
+            success=False, 
+            message=f"Extraction Failed: {exc.message}", 
+            data=exc.details
+        ).model_dump()
     )
-    
-    with psycopg_pool.ConnectionPool(conninfo=DB_CONNECTION_STRING, kwargs={"autocommit": True}) as pool:
-        checkpointer = PostgresSaver(pool)
-        checkpointer.setup()
-        workflow = build_tkp_pipeline(checkpointer=checkpointer)
-        config = {"configurable": {"thread_id": new_job_id}}
-        
-        # 1. Run the pipeline
-        res = workflow.invoke(initial_state, config=config)
-        
-        # 2. Print output to terminal
-        p(res)
-        
-        # 3. Dump the result to a JSON file
-        output_filename = f"{new_job_id}_pipeline_result.json"
-        with open(output_filename, "w", encoding="utf-8") as f:
-            json.dump(res, f, cls=StateEncoder, indent=4, ensure_ascii=False)
-            
-        print(f"\n✅ Successfully saved state to {output_filename}")
+
+@app.exception_handler(LLMGenerationError)
+async def generation_error_handler(request: Request, exc: LLMGenerationError):
+    return JSONResponse(
+        status_code=502, # Bad Gateway (The LLM failed us)
+        content=APIResponse(
+            success=False, 
+            message=f"AI Generation Failed: {exc.message}", 
+            data=exc.details
+        ).model_dump()
+    )
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    # Catch-all for unexpected crashes
+    return JSONResponse(
+        status_code=500,
+        content=APIResponse(
+            success=False, 
+            message="An unexpected internal server error occurred.", 
+            data=str(exc)
+        ).model_dump()
+    )
+
+@app.get("/health", response_model=APIResponse[str])
+async def health_check():
+    """Simple health check endpoint for load balancers."""
+    return APIResponse(success=True, message="System Operational", data="OK")
