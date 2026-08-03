@@ -43,4 +43,7 @@ llama-index
 psycopg-pool
 psycopg-binary
 pgvector
-psycopg2
+psycopg2-binary
+fastapi
+redis
+celery

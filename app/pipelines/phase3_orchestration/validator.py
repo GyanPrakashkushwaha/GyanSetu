@@ -21,9 +21,18 @@ class Validator:
         
         content_to_evaluate = ""
         source_truth = ""
-        for i in range(len(teaching_periods)):
-            content_to_evaluate += f"--- Period {period_contents[i].period_number}: {teaching_periods[i].focus_topic} ---\n{period_contents[i].script.main_body} \n\n"
-            source_truth += f"{teaching_periods[i].concepts_covered} \n\n"
+        generated_content_map = {p.period_number: p for p in period_contents}
+
+        for planned_period in teaching_periods:
+            generated_period = generated_content_map.get(planned_period.period_number)
+            
+            if not generated_period:
+                app_logger.error(f"Missing generated content for Period {planned_period.period_number}")
+                continue 
+            script_text = "\n".join(generated_period.script.main_body)
+            
+            content_to_evaluate += f"--- Period {planned_period.period_number}: {planned_period.focus_topic} ---\n{script_text}\n\n"
+            source_truth += f"--- Period {planned_period.period_number} Truth ---\n{planned_period.concepts_covered}\n\n"
             
         
         # content_to_evaluate = "\n\n".join(

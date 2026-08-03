@@ -1,0 +1,51 @@
+
+services:
+  web:
+    build: .
+    container_name: gyansetu_api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://gyan_user:gyan_pass@db:5432/gyansetu_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/app
+
+  # --- ADD THE CELERY WORKER SERVICE BELOW ---
+  celery_worker:
+    build: .
+    container_name: gyansetu_celery
+    command: celery -A api.celery_worker.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://gyan_user:gyan_pass@db:5432/gyansetu_db
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - .:/app
+  # -------------------------------------------
+
+  db:
+    image: postgres:15-alpine
+    container_name: gyansetu_postgres
+    environment:
+      POSTGRES_USER: gyan_user
+      POSTGRES_PASSWORD: gyan_pass
+      POSTGRES_DB: gyansetu_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+
+  redis:
+    image: redis:alpine
+    container_name: gyansetu_redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

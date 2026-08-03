@@ -1,6 +1,6 @@
 
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from enum import Enum
 
 class SeverityLevel(str, Enum):
@@ -83,3 +83,10 @@ class TeacherKnowledgePackage(BaseModel):
     metadata: EducationalMetadata
     knowledge_base: ExtractedKnowledge
     periods: List[dict] = Field(default_factory=list, description="Placeholder for Stage 4 Teaching Planner.")
+
+class StreamEvent(BaseModel):
+    job_id: str = Field(..., description="Unique identifier for the generation job")
+    stage: str = Field(..., description="Current LangGraph node or pipeline stage")
+    status: str = Field(..., description="State of the stage: IN_PROGRESS, SUCCESS, FAILED, HUMAN_REVIEW_NEEDED")
+    details: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Additional context or node outputs")
+    

@@ -1,88 +1,69 @@
-import uuid
-import json
-from pathlib import Path
-from rich import print as p
-from typing import TypedDict
-import psycopg_pool
-from pydantic import BaseModel
+# app/main.py
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
-from llama_index.core import SimpleDirectoryReader
-from langgraph.checkpoint.postgres import PostgresSaver
+from api.routes import router as api_router
+from api.schemas import APIResponse
+from core.exceptions import LLMGenerationError, ExtractionError
+from core.logger import app_logger
 
-from pipelines.phase1_extraction.parser import DocumentParser
-from pipelines.orchestrator import build_tkp_pipeline
-from models.schemas import EducationalMetadata, ExtractedKnowledge
-from core.config import DB_CONNECTION_STRING 
+# 1. Bootstrapping the Application
+app = FastAPI(
+    title="Teacher AI Platform API",
+    description="10-Stage Pipeline API for generating Teacher Knowledge Packages (TKP).",
+    version="1.0.0"
+)
 
+# 2. CORS Middleware (Protecting the perimeter)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Note: Restrict this to your frontend URL (e.g., localhost:3000) in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-class StateEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, BaseModel):
-            return obj.model_dump() if hasattr(obj, 'model_dump') else obj.dict()
-        return super().default(obj)
-
-class PipelineState(TypedDict):
-    job_id : str
-    raw_text: str
-    metadata: EducationalMetadata | None
-    knowledge_base: ExtractedKnowledge | None
-    validation_errors: list[str]
-    current_stage: str
-
-if __name__=="__main__":
-    # from sqlalchemy import text
-    # from models.database import engine, Base
-    # from core.logger import app_logger
-
-    # def init_database():
-    #     app_logger.info("Connecting to database to sync schemas...")
-        
-    #     with engine.connect() as conn:
-    #         # 1. CRITICAL: Enable the pgvector extension FIRST
-    #         app_logger.info("Enabling pgvector extension...")
-    #         conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
-    #         conn.commit()
-            
-    #     # 2. Create the tables (this translates your Python classes into SQL CREATE TABLE commands)
-    #     app_logger.info("Creating tables...")
-    #     Base.metadata.create_all(bind=engine)
-        
-    #     app_logger.info("Database sync complete! 'document_chunks' table is ready.")
-
-    # # Run the initialization
-    # init_database()
-    
-    
-    documents = SimpleDirectoryReader(input_files=[r"../data/63d00cdb-f5fb-4d86-9a8e-4cea460455f1.md"]).load_data()
-    text = documents[0].text
-    new_job_id = str(uuid.uuid4())
-    
-    initial_state = PipelineState(
-        job_id=new_job_id,
-        raw_text=text,
-        metadata=None,
-        knowledge_base=None,
-        validation_errors=[],
-        current_stage="Initialized"
+# 3. Global Exception Handlers (The "Approach C" Magic)
+@app.exception_handler(ExtractionError)
+async def extraction_error_handler(request: Request, exc: ExtractionError):
+    app_logger.error(f"Extraction Error at {request.url.path}: {exc.message}")
+    response = APIResponse(
+        success=False,
+        message="Failed to parse or extract data from the document.",
+        error_details=exc.details
     )
-    
-    with psycopg_pool.ConnectionPool(conninfo=DB_CONNECTION_STRING, kwargs={"autocommit": True}) as pool:
-        checkpointer = PostgresSaver(pool)
-        checkpointer.setup()
-        workflow = build_tkp_pipeline(checkpointer=checkpointer)
-        config = {"configurable": {"thread_id": new_job_id}}
-        
-        # 1. Run the pipeline
-        res = workflow.invoke(initial_state, config=config)
-        
-        # 2. Print output to terminal
-        p(res)
-        
-        # 3. Dump the result to a JSON file
-        output_filename = f"{new_job_id}_pipeline_result.json"
-        with open(output_filename, "w", encoding="utf-8") as f:
-            json.dump(res, f, cls=StateEncoder, indent=4, ensure_ascii=False)
-            
-        print(f"\n✅ Successfully saved state to {output_filename}")
+    # 422 Unprocessable Entity is semantically correct here
+    return JSONResponse(status_code=422, content=response.model_dump())
+
+@app.exception_handler(LLMGenerationError)
+async def llm_generation_error_handler(request: Request, exc: LLMGenerationError):
+    app_logger.error(f"LLM Error at {request.url.path}: {exc.message}")
+    response = APIResponse(
+        success=False,
+        message="The AI engine failed to generate the pedagogical content.",
+        error_details=exc.details
+    )
+    # 502 Bad Gateway indicates an upstream service (like OpenAI) failed
+    return JSONResponse(status_code=502, content=response.model_dump())
+
+@app.exception_handler(Exception)
+async def global_500_handler(request: Request, exc: Exception):
+    # The ultimate safety net for unhandled bugs
+    app_logger.critical(f"Unhandled Server Error: {str(exc)}")
+    response = APIResponse(
+        success=False,
+        message="An unexpected internal server error occurred.",
+        error_details=str(exc) # Note: Hide this from the frontend in real production!
+    )
+    return JSONResponse(status_code=500, content=response.model_dump())
 
 
+# 4. Mount the Application Routes
+app.include_router(api_router, prefix="/api/v1")
+
+# 5. Load Balancer Health Check
+@app.get("/health", tags=["Health"])
+async def health_check():
+    """Used by Docker/Kubernetes to verify the container is alive."""
+    return APIResponse(success=True, message="Teacher AI Platform is fully operational.")

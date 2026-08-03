@@ -1,0 +1,18 @@
+# Exclude virtual environments
+.venv/
+venv/
+env/
+wsl-venv/
+
+
+# Exclude cache and editor files
+__pycache__/
+*.pyc
+.vscode/
+.ipynb_checkpoints/
+notebooks/
+samples/
+
+# Exclude Git
+.git/
+.gitignore
