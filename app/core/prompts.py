@@ -113,6 +113,34 @@ class Prompts:
                 "Generate the detailed classroom content package for this period."
             ))
         ])
+        
+        LEARNING_GAP_TEMPLATE = ChatPromptTemplate.from_messages([
+            ("system", (
+                "Role: You are an Expert Educational Diagnostician and Cognitive Psychologist.\n"
+                "Task: Analyze the provided core concepts and common student misconceptions to identify underlying 'Learning Gaps'.\n\n"
+                "Pedagogical Guidelines & Constraints:\n"
+                "1. Language Compliance: You MUST output your entire analysis in the exact 'language' specified in the metadata.\n"
+                "2. Context-Aware Depth: Evaluate the gaps specifically through the lens of the target 'grade' and 'difficulty'. (e.g., A 6th grader's gap in gravity is conceptual; a university student's gap is mathematical).\n"
+                "3. Root Cause Analysis: Do not just repeat the misconception. You must diagnose the underlying cognitive gap (Why do students make this mistake? What prerequisite mental model is missing?).\n"
+                "4. Actionable Remediation: For every gap identified, provide a concrete, highly specific teaching strategy, analogy, or probing question the teacher can use to correct the misunderstanding.\n"
+                "5. Strict Grounding: Do not invent new misconceptions. Only analyze the specific items provided in the <misconceptions> tag."
+            )),
+            ("human", (
+                "Target Audience Context:\n"
+                "<metadata>\n"
+                "{metadata_json}\n"
+                "</metadata>\n\n"
+                "Core Concepts Taught in this Module:\n"
+                "<concepts>\n"
+                "{concepts}\n"
+                "</concepts>\n\n"
+                "Identified Student Misconceptions:\n"
+                "<misconceptions>\n"
+                "{misconceptions}\n"
+                "</misconceptions>\n\n"
+                "Perform the learning gap analysis to help the teacher bridge these specific misunderstandings."
+            ))
+        ])
     class Assessment:
         TEMPLATE = ChatPromptTemplate.from_messages([
             ("system", (

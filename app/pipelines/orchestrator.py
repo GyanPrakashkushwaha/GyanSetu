@@ -8,10 +8,12 @@ from langgraph.constants import Send
 from models.schemas import (EducationalMetadata, 
                             ExtractedKnowledge, 
                             TeachingPlan,
-                            PeriodContent)
+                            PeriodContent,
+                            LearningGapAnalysis)
 from pipelines.phase1_extraction.extractor import knowledge_extractor
 from pipelines.phase2_generation.planner import teaching_planner
-from pipelines.phase2_generation.content_gen import generate_single_period
+from pipelines.phase2_generation.content_gen import content_generator
+from pipelines.phase2_generation.learning_gap import learning_gap_analyzer
 
 from pipelines.phase1_extraction.chunker import document_chunker
 from infrastructure.vector_store import vector_store
@@ -27,6 +29,7 @@ class PipelineState(TypedDict):
     metadata: EducationalMetadata | None
     knowledge_base: ExtractedKnowledge | None
     teaching_plan: TeachingPlan | None
+    learning_gaps: LearningGapAnalysis | None
     
     period_contents: Annotated[list[PeriodContent], operator.add]
     
@@ -89,7 +92,7 @@ def teaching_planner_node(state: PipelineState) -> dict:
 def generate_period_content_node(state: PeriodState) -> dict:
     job_id = state["job_id"]
     app_logger.info(f"Fan-out worker running for Period {state['period'].period_number}")
-    result: PeriodContent = generate_single_period(job_id=job_id, period=state["period"], metadata=state["metadata"])
+    result: PeriodContent = content_generator.generate_single_period(metadata=state["metadata"], job_id=job_id, period=state["period"])
     return {"period_contents": [result]}
 
 
@@ -109,7 +112,22 @@ def fan_out_periods(state: PipelineState):
         }) for p in plan.periods
     ]
 
-
+def analyze_learning_gaps_node(state: PipelineState) -> dict:
+    job_id = state["job_id"]
+    app_logger.info("Starting Learning Gap Analysis", extra={"extra_info": {"job_id": job_id, "stage": 8}})
+    
+    try:
+        result = learning_gap_analyzer.learning_gap_node(
+            metadata_json=state["metadata"],
+            job_id=job_id, 
+            knowledge_base=state["knowledge_base"]
+        )
+        return {"learning_gaps": result, "current_stage": "Stage 8 Complete"}
+    except Exception as e:
+        app_logger.error(f"Gap Analysis failed: {str(e)}", extra={"extra_info": {"job_id": job_id}})
+        raise LLMGenerationError(message="Stage 8 Failed", details={"job_id": job_id})
+    
+    
 def build_tkp_pipeline(checkpointer: PostgresSaver):
     workflow = StateGraph(PipelineState)
     
@@ -118,6 +136,7 @@ def build_tkp_pipeline(checkpointer: PostgresSaver):
     workflow.add_node("extract", knowledge_extraction_node)
     workflow.add_node("vectorize", vectorization_node)
     workflow.add_node("plan", teaching_planner_node)
+    workflow.add_node("analyze_gaps", analyze_learning_gaps_node) 
     workflow.add_node("generate_period_content", generate_period_content_node)
     
     # Sequential Core Flow
@@ -125,9 +144,10 @@ def build_tkp_pipeline(checkpointer: PostgresSaver):
     workflow.add_edge("classify", "extract")
     workflow.add_edge("extract", "vectorize")
     workflow.add_edge("vectorize", "plan")
+    workflow.add_edge("plan", "analyze_gaps") 
     
-    # Dynamic Map-Reduce Fan-Out from Plan -> Parallel Workers
-    workflow.add_conditional_edges("plan", fan_out_periods, ["generate_period_content"])
+    # Dynamic Map-Reduce Fan-Out (Now triggers after gaps are analyzed)
+    workflow.add_conditional_edges("analyze_gaps", fan_out_periods, ["generate_period_content"])
     
     # Fan-In to END
     workflow.add_edge("generate_period_content", END)

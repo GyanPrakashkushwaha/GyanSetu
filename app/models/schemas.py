@@ -1,7 +1,13 @@
 
 from pydantic import BaseModel, Field
 from typing import List, Optional
+from enum import Enum
 
+class SeverityLevel(str, Enum):
+    LOW = "Low"
+    MEDIUM = "Medium"
+    HIGH = "High"
+    
 class EducationalMetadata(BaseModel):
     subject: str = Field(..., description="The primary academic subject (e.g., Physics, History).")
     grade: str = Field(..., description="The target grade or education level (e.g., 10th Grade, Undergraduate).")
@@ -56,6 +62,17 @@ class PeriodContent(BaseModel):
     activity: ClassroomActivity = Field(..., description="The engaging classroom activity.")
     assessment: FormativeAssessment = Field(..., description="The end-of-period check for understanding.")
 
+class LearningGap(BaseModel):
+    misconception: str = Field(..., description="The specific student misconception identified from the core text.")
+    severity_level: SeverityLevel = Field(..., description="The severity of this misconception (Low, Medium, High) based on how fundamentally it blocks future learning of the subject.")
+    diagnostic_question: str = Field(..., description="A targeted, thought-provoking question designed specifically to reveal if a student holds this exact misconception. Avoid simple true/false.")
+    remedial_action: str = Field(..., description="A concrete, actionable teaching strategy, analogy, or mini-activity the teacher can use to correct this misconception.")
+
+class LearningGapAnalysis(BaseModel):    
+    gaps: List[LearningGap] = Field(...,
+        description="A comprehensive list of identified learning gaps and their corresponding remediation strategies."
+    )
+    
 class TeacherKnowledgePackage(BaseModel):
     metadata: EducationalMetadata
     knowledge_base: ExtractedKnowledge
