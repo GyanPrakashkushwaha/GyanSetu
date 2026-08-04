@@ -1,11 +1,14 @@
-```
+## Graph workflow-
 
+![alt text](./assets/image.png)
+```
 gyansetu/
 ├── app/
 │   ├── api/                      # Routing layer (No business logic here)
 │   │   ├── dependencies.py       # FastAPI dependencies (auth, db sessions)
-│   │   └── v1/                   # API versioning
-│   │       ├── endpoints/        # Routes for uploading, streaming progress, downloading TKP
+│   │   ├── celery_app.py         #  (backgroud process)
+│   │   ├── routes.py             # routes
+│   │   ├── schemas.py            # models used in fastapi app
 │   ├── core/                     # Application-wide settings
 │   │   ├── config.py             # Pydantic BaseSettings (Env vars)
 │   │   ├── exceptions.py         # Custom error classes (e.g., ExtractionError, GenerationError)
