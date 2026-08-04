@@ -47,3 +47,4 @@ psycopg2-binary
 fastapi
 redis
 celery
+python-multipart

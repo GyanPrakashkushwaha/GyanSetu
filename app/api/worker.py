@@ -6,6 +6,8 @@ import psycopg_pool
 from langgraph.checkpoint.postgres import PostgresSaver
 from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from core.config import DB_CONNECTION_STRING 
+from pipelines.phase1_extraction.parser import DocumentParser
+from pathlib import Path
 
 safe_schemas = {
     ('models.schemas', 'EducationalMetadata'),
@@ -19,11 +21,14 @@ custom_serializer = JsonPlusSerializer(allowed_msgpack_modules=safe_schemas)
 
 # bind=True gives us access to 'self', allowing us to update the task state
 @celery_app.task(bind=True, name="generate_tkp_task")
-def run_background_pipeline(self, job_id: str, text: str, human_feedback: str = None):
+def run_background_pipeline(self, job_id: str, file_path: str, human_feedback: str = None):
     app_logger.info(f"Worker picked up job {job_id}")
     
-    with psycopg_pool.ConnectionPool(conninfo=DB_CONNECTION_STRING, serde=custom_serializer, kwargs={"autocommit": True}) as pool:
-        checkpointer = PostgresSaver(pool)
+    with psycopg_pool.ConnectionPool(conninfo=DB_CONNECTION_STRING, kwargs={"autocommit": True}) as pool:
+        
+        doc_parser = DocumentParser()
+        raw_text = doc_parser.parse_document(Path(file_path))        
+        checkpointer = PostgresSaver(pool, serde=custom_serializer)
         checkpointer.setup()
         workflow = build_tkp_pipeline(checkpointer=checkpointer)
         config = {"configurable": {"thread_id": job_id}}
@@ -40,7 +45,7 @@ def run_background_pipeline(self, job_id: str, text: str, human_feedback: str = 
         else:
             initial_state = PipelineState(
                 job_id=job_id,
-                raw_text=text,
+                raw_text=raw_text,
                 metadata=None,
                 knowledge_base=None,
                 validation_errors=[],

@@ -13,8 +13,8 @@ services:
       - redis
     volumes:
       - .:/app
+      # - ./uploaded_files:/app/uploaded_files
 
-  # --- ADD THE CELERY WORKER SERVICE BELOW ---
   celery_worker:
     build: .
     container_name: gyansetu_celery
@@ -27,7 +27,7 @@ services:
       - db
     volumes:
       - .:/app
-  # -------------------------------------------
+      # - ./uploaded_files:/app/uploaded_files
 
   db:
     image: pgvector/pgvector:pg16

@@ -70,8 +70,17 @@ async def global_500_handler(request: Request, exc: Exception):
 # 4. Mount the Application Routes
 app.include_router(api_router, prefix="/api/v1")
 
-# 5. Load Balancer Health Check
 @app.get("/health", tags=["Health"])
 async def health_check():
     """Used by Docker/Kubernetes to verify the container is alive."""
     return APIResponse(success=True, message="Teacher AI Platform is fully operational.")
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url,
+        title=app.title + " - Swagger UI (Dark)",
+        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+        swagger_css_url="https://jsdelivr.net",
+        swagger_js_url="https://jsdelivr.net",
+    )

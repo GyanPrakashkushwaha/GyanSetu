@@ -1,8 +1,10 @@
 import uuid
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File
 from pydantic import BaseModel
 from celery.result import AsyncResult
 from .celery_app import celery_app
+from pathlib import Path
+import shutil
 
 from .worker import run_background_pipeline
 
@@ -13,6 +15,24 @@ class DocumentPayload(BaseModel):
     
 class ResumePayload(BaseModel):
     human_feedback: str
+
+class UploadPayload(BaseModel):
+    file: UploadFile = File(...)
+    
+
+@router.post("/upload", status_code=201)
+async def upload_document(file : UploadFile = File(...)):
+    UPLOAD_DIR = Path("uploaded_files")
+    UPLOAD_DIR.mkdir(exist_ok=True)
+    file_path = UPLOAD_DIR / f"{uuid.uuid4()}_{file.filename}"
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    job_id = str(uuid.uuid4())
+        
+    run_background_pipeline.apply_async(args=[job_id, str(file_path)], task_id=job_id)
+    
+    return {"job_id": job_id, "message": "Generation task queued."}
 
 
 @router.post("/jobs/generate", status_code=202)
