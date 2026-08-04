@@ -1,12 +1,13 @@
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from core.config import GEMINI_API_KEY
+# from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_openai.embeddings.base import OpenAIEmbeddings
+from core.config import OPENAI_API_KEY
 from models.database import DocumentChunk
 from core.logger import app_logger
 from models.database import SessionLocal
 
 class VectorStore:
     def __init__(self):
-        self.embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-2", api_key=GEMINI_API_KEY)
+        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=OPENAI_API_KEY)
 
     def ingest_chunks(self, job_id: str, chunks: list[dict]):
         app_logger.info(f"Generating Gemini embeddings for {len(chunks)} chunks...")

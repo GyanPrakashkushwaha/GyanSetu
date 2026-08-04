@@ -20,6 +20,10 @@ safe_schemas = {
 }
 custom_serializer = JsonPlusSerializer(allowed_msgpack_modules=safe_schemas)
 
+def safe_serialize(model):
+    if not model: return None
+    return model.model_dump() if hasattr(model, 'model_dump') else model.dict()
+
 # bind=True gives us access to 'self', allowing us to update the task state
 @celery_app.task(bind=True, name="generate_tkp_task")
 def run_background_pipeline(self, job_id: str, file_path: str, human_feedback: str = None):
@@ -57,18 +61,23 @@ def run_background_pipeline(self, job_id: str, file_path: str, human_feedback: s
             for event in workflow.stream(initial_state, config=config):
                 for node_name, state_update in event.items():
                     current_stage = state_update.get("current_stage", node_name)
+                    current_stage_data = workflow.get_state(config).values
+                    
+                    tkp_current_data = {
+                        "metadata": safe_serialize(current_stage_data.get("metadata", None)),
+                        "knowledge_base": safe_serialize(current_stage_data.get("knowledge_base", None)),
+                        "teaching_plan": safe_serialize(current_stage_data.get("teaching_plan", None)),
+                        "learning_gaps": safe_serialize(current_stage_data.get("learning_gaps", None)),
+                        "period_contents": [safe_serialize(p) for p in current_stage_data.get("period_contents", [])]
+                    }
                     
                     self.update_state(
                         state="IN_PROGRESS", 
-                        meta={"stage": current_stage, "node": node_name}
+                        meta={"stage": current_stage, "node": node_name, "data": tkp_current_data}
                     )
                     app_logger.info(f"Job {job_id} transitioned to {node_name}")
                     
             final_state = workflow.get_state(config).values
-            
-            def safe_serialize(model):
-                if not model: return None
-                return model.model_dump() if hasattr(model, 'model_dump') else model.dict()
 
             tkp_data = {
                 "metadata": safe_serialize(final_state.get("metadata")),
