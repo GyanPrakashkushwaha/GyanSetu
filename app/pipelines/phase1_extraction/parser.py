@@ -48,30 +48,30 @@ class DocumentParser:
             )
             
             full_markdown = result.markdown_full
-            # print(full_markdown)
-            Path(f"../data/{self.FILE_ID}.md").write_text(full_markdown or "", encoding="utf-8")
+            # # print(full_markdown)
+            # Path(f"../data/{self.FILE_ID}.md").write_text(full_markdown or "", encoding="utf-8")
             
-            b64_str_lst = {}
-            if result.images_content_metadata:
-                for i, image_meta in enumerate(result.images_content_metadata.images):
-                    url = image_meta.presigned_url
-                    data_url = self._url_to_base64(url) 
-                    key = image_meta.filename.split(".")[0]
-                    b64_str_lst[key] = data_url
+            # b64_str_lst = {}
+            # if result.images_content_metadata:
+            #     for i, image_meta in enumerate(result.images_content_metadata.images):
+            #         url = image_meta.presigned_url
+            #         data_url = self._url_to_base64(url) 
+            #         key = image_meta.filename.split(".")[0]
+            #         b64_str_lst[key] = data_url
                     
-                with open(f"../data/{self.FILE_ID}.json", "w") as f:
-                    json.dump(b64_str_lst, f, indent=4)
+            #     with open(f"../data/{self.FILE_ID}.json", "w") as f:
+            #         json.dump(b64_str_lst, f, indent=4)
                     
-            app_logger.info(
-                "Successfully parsed document", 
-                extra={
-                    "extra_info": {
-                        "file_name": file_path.name,
-                        "file_id": self.FILE_ID,
-                        "characters_extracted": len(full_markdown or "")
-                    }
-                }
-            )
+            # app_logger.info(
+            #     "Successfully parsed document", 
+            #     extra={
+            #         "extra_info": {
+            #             "file_name": file_path.name,
+            #             "file_id": self.FILE_ID,
+            #             "characters_extracted": len(full_markdown or "")
+            #         }
+            #     }
+            # )
             return full_markdown
         
         except Exception as e:

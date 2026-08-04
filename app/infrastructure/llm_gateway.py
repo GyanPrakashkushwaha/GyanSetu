@@ -24,7 +24,7 @@ class LLMGateway:
     """
     MAX_RETRIES = 5
     def __init__(self):
-        self.model_name = "gpt-4o-mini"
+        self.model_name = "gpt-4.1-mini"
         self.llm = ChatOpenAI(
             model=self.model_name,
             temperature=0.2,
