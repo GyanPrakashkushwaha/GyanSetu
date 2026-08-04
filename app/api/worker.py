@@ -8,6 +8,7 @@ from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from core.config import DB_CONNECTION_STRING 
 from pipelines.phase1_extraction.parser import DocumentParser
 from pathlib import Path
+import json
 
 safe_schemas = {
     ('models.schemas', 'EducationalMetadata'),
@@ -76,7 +77,9 @@ def run_background_pipeline(self, job_id: str, file_path: str, human_feedback: s
                 "learning_gaps": safe_serialize(final_state.get("learning_gaps")),
                 "period_contents": [safe_serialize(p) for p in final_state.get("period_contents", [])]
             }
-            
+            with open(f"../samples/TeacherKnowledgePackage{job_id}.json", "w") as f:
+                json.dump(tkp_data, f, indent=4)
+                
             return {"stage": "Complete", "status": "SUCCESS", "data": tkp_data}
         
         except Exception as e:

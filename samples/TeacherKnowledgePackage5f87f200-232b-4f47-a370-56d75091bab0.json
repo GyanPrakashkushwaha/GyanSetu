@@ -1,0 +1,388 @@
+{
+    "metadata": {
+        "subject": "Mathematics",
+        "grade": "Class 12",
+        "difficulty": "Intermediate",
+        "topic": "Limits and Derivatives",
+        "chapter": "Calculus",
+        "category": "STEM",
+        "language": "English"
+    },
+    "knowledge_base": {
+        "learning_objectives": [
+            "Define and explain the concepts of limits and derivatives.",
+            "Calculate limits of functions using various techniques.",
+            "Determine the derivative of a function using the first principle of derivatives.",
+            "Apply the rules of differentiation to find derivatives of polynomial and trigonometric functions."
+        ],
+        "prerequisites": [
+            "Understanding of basic algebra and functions.",
+            "Familiarity with the concept of a function and its graph.",
+            "Knowledge of limits and continuity from previous studies."
+        ],
+        "concepts": [
+            "Limits of functions",
+            "Derivatives of functions",
+            "Instantaneous rate of change",
+            "Algebra of limits",
+            "Rules of differentiation (sum, product, quotient)",
+            "Standard derivatives of polynomial and trigonometric functions"
+        ],
+        "key_terms": [
+            {
+                "term": "Limit",
+                "definition": "The value that a function approaches as the input approaches a specified point."
+            },
+            {
+                "term": "Derivative",
+                "definition": "The measure of how a function changes as its input changes, defined as the limit of the average rate of change of the function over an interval as the interval approaches zero."
+            },
+            {
+                "term": "Instantaneous velocity",
+                "definition": "The derivative of the position function with respect to time, representing the velocity of an object at a specific moment."
+            },
+            {
+                "term": "Average velocity",
+                "definition": "The total distance traveled divided by the total time taken over a specified interval."
+            }
+        ],
+        "formulae": [
+            "s = 4.9t^2",
+            "\u0005 = \frac{Distance travelled between t_2 = 2 and t_1 = 0}{Time interval (t_2 - t_1)}",
+            "f'(a) = \frac{f(a+h) - f(a)}{h}",
+            "\frac{d}{dx}[f(x)+g(x)] = \frac{d}{dx}f(x) + \frac{d}{dx}g(x)",
+            "\frac{d}{dx}[f(x)-g(x)] = \frac{d}{dx}f(x) - \frac{d}{dx}g(x)",
+            "\frac{d}{dx}[f(x) \times g(x)] = \frac{d}{dx}f(x) \times g(x) + f(x) \times \frac{d}{dx}g(x)",
+            "\frac{d}{dx}\bigg(\frac{f(x)}{g(x)}\bigg) = \frac{f'(x)g(x) - f(x)g'(x)}{(g(x))^2}"
+        ],
+        "misconceptions": [
+            "Students may confuse the limit of a function at a point with the value of the function at that point.",
+            "Students might think that a derivative exists at all points of a function without considering continuity.",
+            "Students may incorrectly apply the rules of differentiation without understanding the underlying concepts of limits and continuity."
+        ]
+    },
+    "teaching_plan": {
+        "total_periods": 6,
+        "rationale": "This teaching plan is structured to build foundational knowledge before introducing complex concepts, ensuring that students grasp each element of limits and derivatives thoroughly. The pacing is designed to accommodate the intermediate difficulty level, allowing for adequate time to explore each topic and address common misconceptions.",
+        "periods": [
+            {
+                "period_number": 1,
+                "focus_topic": "Prerequisites Review",
+                "learning_outcome": "Students will understand the foundational concepts necessary for limits and derivatives.",
+                "concepts_covered": [
+                    "Understanding of basic algebra and functions.",
+                    "Familiarity with the concept of a function and its graph.",
+                    "Knowledge of limits and continuity from previous studies."
+                ],
+                "estimated_minutes": 40
+            },
+            {
+                "period_number": 2,
+                "focus_topic": "Introduction to Limits",
+                "learning_outcome": "Students will define and explain the concept of limits and calculate limits of functions using various techniques.",
+                "concepts_covered": [
+                    "Limits of functions",
+                    "Algebra of limits"
+                ],
+                "estimated_minutes": 40
+            },
+            {
+                "period_number": 3,
+                "focus_topic": "Key Terms and Misconceptions in Limits",
+                "learning_outcome": "Students will understand key terms related to limits and identify common misconceptions.",
+                "concepts_covered": [
+                    "Limit",
+                    "Instantaneous velocity",
+                    "Average velocity"
+                ],
+                "estimated_minutes": 40
+            },
+            {
+                "period_number": 4,
+                "focus_topic": "Introduction to Derivatives",
+                "learning_outcome": "Students will define and explain the concept of derivatives and determine the derivative of a function using the first principle.",
+                "concepts_covered": [
+                    "Derivatives of functions",
+                    "Instantaneous rate of change"
+                ],
+                "estimated_minutes": 40
+            },
+            {
+                "period_number": 5,
+                "focus_topic": "Rules of Differentiation",
+                "learning_outcome": "Students will apply the rules of differentiation to find derivatives of polynomial and trigonometric functions.",
+                "concepts_covered": [
+                    "Rules of differentiation (sum, product, quotient)",
+                    "Standard derivatives of polynomial and trigonometric functions"
+                ],
+                "estimated_minutes": 40
+            },
+            {
+                "period_number": 6,
+                "focus_topic": "Formulae and Application",
+                "learning_outcome": "Students will apply differentiation rules and understand the application of formulae in real-world scenarios.",
+                "concepts_covered": [
+                    "s = 4.9t^2",
+                    "f'(a) = \\frac{f(a+h) - f(a)}{h}",
+                    "\\frac{d}{dx}[f(x)+g(x)] = \\frac{d}{dx}f(x) + \\frac{d}{dx}g(x)",
+                    "\\frac{d}{dx}[f(x)-g(x)] = \\frac{d}{dx}f(x) - \\frac{d}{dx}g(x)",
+                    "\\frac{d}{dx}[f(x) \\times g(x)] = \\frac{d}{dx}f(x) \\times g(x) + f(x) \\times \\frac{d}{dx}g(x)",
+                    "\\frac{d}{dx}\\bigg(\\frac{f(x)}{g(x)}\\bigg) = \\frac{f'(x)g(x) - f(x)g'(x)}{(g(x))^2}"
+                ],
+                "estimated_minutes": 40
+            }
+        ]
+    },
+    "learning_gaps": {
+        "gaps": [
+            {
+                "misconception": "Students may confuse the limit of a function at a point with the value of the function at that point.",
+                "severity_level": "High",
+                "diagnostic_question": "Can you explain the difference between the limit of a function as x approaches a value and the actual value of the function at that point?",
+                "remedial_action": "Use a graphical approach: Draw a function that has a hole at a certain point (e.g., f(x) = (x^2 - 1)/(x - 1) at x=1). Show that the limit as x approaches 1 is 2, while f(1) is undefined. Discuss how limits can exist even when the function does not."
+            },
+            {
+                "misconception": "Students might think that a derivative exists at all points of a function without considering continuity.",
+                "severity_level": "Medium",
+                "diagnostic_question": "What do you think happens to the derivative of a function at a point where the function is not continuous?",
+                "remedial_action": "Introduce the concept of continuity and differentiability with a visual example: Use piecewise functions or functions with sharp corners (like f(x) = |x| at x=0) to illustrate that a derivative does not exist at points of discontinuity or sharp turns. Ask students to identify points where the derivative cannot be defined."
+            },
+            {
+                "misconception": "Students may incorrectly apply the rules of differentiation without understanding the underlying concepts of limits and continuity.",
+                "severity_level": "Medium",
+                "diagnostic_question": "How would you explain why the product rule works? What happens to the limits of the functions involved?",
+                "remedial_action": "Conduct a hands-on activity where students derive the product rule from first principles using limits. Have them calculate the limit of the difference quotient for the product of two functions, guiding them to see how the limit definition of a derivative leads to the product rule. This will reinforce the connection between limits and differentiation."
+            }
+        ]
+    },
+    "period_contents": [
+        {
+            "period_number": 1,
+            "script": {
+                "introduction": "Good morning, class! Today, we are diving into the fascinating world of Calculus, specifically focusing on limits and derivatives. To kick things off, let\u2019s think about how we can describe the motion of a car. Imagine a car moving along a straight road. If we want to know how fast it\u2019s going at a specific moment, we need to understand how its position changes over time. This idea of change is at the heart of Calculus!",
+                "main_body": [
+                    "We will start by reviewing some basic algebra and functions. Remember, a function is a relationship between a set of inputs and outputs, often represented as f(x).",
+                    "Next, we will discuss the concept of limits. A limit helps us understand the behavior of a function as it approaches a certain point. For example, if we have a function f(x), the limit as x approaches a can be thought of as what value f(x) gets closer to as x gets closer to a.",
+                    "We will also touch on continuity. A function is continuous at a point if you can draw its graph without lifting your pencil. This means that the limit of the function as it approaches that point is equal to the function's value at that point.",
+                    "Finally, we will explore how these concepts set the stage for understanding derivatives, which tell us how a function changes at any given point."
+                ],
+                "conclusion": "In summary, today we have reviewed the foundational concepts of functions, limits, and continuity. These ideas are crucial as we move forward into the world of derivatives in our next lessons."
+            },
+            "activity": {
+                "title": "Function Graphing Relay",
+                "duration_minutes": 15,
+                "materials_needed": [
+                    "Graph paper",
+                    "Markers",
+                    "Rulers"
+                ],
+                "instructions": [
+                    "Divide the class into small groups of 4-5 students.",
+                    "Each group will receive a different function to graph (e.g., linear, quadratic, exponential).",
+                    "Using graph paper, each group will plot their function on a coordinate plane, ensuring they label the axes and the function clearly.",
+                    "Once the graph is completed, each group will present their function to the class, explaining its key features such as intercepts, slopes, and any asymptotes.",
+                    "Encourage students to ask questions about each group's graph to foster a collaborative learning environment."
+                ]
+            },
+            "assessment": {
+                "questions": [
+                    "What is a limit in the context of a function?",
+                    "How can we determine if a function is continuous at a point?",
+                    "Explain the significance of understanding limits before studying derivatives."
+                ],
+                "answer_key": [
+                    "A limit is the value that a function approaches as the input approaches a certain point.",
+                    "A function is continuous at a point if the limit of the function as it approaches that point equals the function's value at that point.",
+                    "Understanding limits is crucial because derivatives are defined using limits, allowing us to analyze how functions change."
+                ]
+            }
+        },
+        {
+            "period_number": 2,
+            "script": {
+                "introduction": "Good morning, class! Today, we are diving into the fascinating world of limits in calculus. Imagine you are driving towards a stop sign. As you get closer, your speed decreases, and you eventually come to a halt. This process of approaching a point is similar to what we will explore today with limits. We will learn how functions behave as they get close to certain values, just like you approaching that stop sign.",
+                "main_body": [
+                    "Let's start with the definition of a limit. When we say \\( \\lim_{x \\to a} f(x) = l \\), it means that as \\( x \\) gets closer to \\( a \\), the function \\( f(x) \\) approaches the value \\( l \\).",
+                    "For example, consider the function \\( f(x) = x^2 \\). As \\( x \\) approaches 0, we find that \\( \\lim_{x \\to 0} f(x) = 0 \\). This tells us that the value of the function at 0 is what it approaches as we get closer to it.",
+                    "Now, let's look at another function, \\( g(x) = |x| \\). Even though \\( g(0) \\) is not defined, we can still say that \\( \\lim_{x \\to 0} g(x) = 0 \\) because the values of \\( g(x) \\) get closer to 0 as \\( x \\) approaches 0 from either side.",
+                    "Next, we have a more complex function: \\( h(x) = \\frac{x^2 - 4}{x - 2} \\). Although \\( h(2) \\) is undefined, we can compute the limit as \\( x \\) approaches 2. By evaluating values near 2, we see that they approach 4, so \\( \\lim_{x \\to 2} h(x) = 4 \\).",
+                    "It's important to note that limits can be approached from the left or the right. For instance, with the piecewise function \\( f(x) = \\begin{cases} 1, & x \\le 0 \\\\ 2, & x > 0 \\end{cases} \\), we find that \\( \\lim_{x \\to 0^-} f(x) = 1 \\) and \\( \\lim_{x \\to 0^+} f(x) = 2 \\). Since these two limits are different, we say that \\( \\lim_{x \\to 0} f(x) \\) does not exist."
+                ],
+                "conclusion": "In summary, limits help us understand the behavior of functions as they approach specific points. We can calculate limits using various techniques, and it's crucial to recognize when limits exist or do not exist based on the values from the left and right."
+            },
+            "activity": {
+                "title": "Limit Exploration",
+                "duration_minutes": 15,
+                "materials_needed": [],
+                "instructions": [
+                    "Divide the class into small groups of 3-4 students.",
+                    "Assign each group a different function to analyze. Examples include: \\( f(x) = x^2 \\), \\( g(x) = |x| \\), and \\( h(x) = \\frac{x^2 - 4}{x - 2} \\).",
+                    "Ask each group to calculate the limit of their assigned function as it approaches a specified point (e.g., 0 or 2).",
+                    "Encourage them to discuss whether the limit exists and if they can find left-hand and right-hand limits.",
+                    "After 10 minutes, have each group present their findings to the class."
+                ]
+            },
+            "assessment": {
+                "questions": [
+                    "What does it mean when we say \\( \\lim_{x \\to a} f(x) = l \\)?",
+                    "Calculate the limit: \\( \\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2} \\).",
+                    "Explain why the limit of the piecewise function \\( f(x) = \\begin{cases} 1, & x \\le 0 \\\\ 2, & x > 0 \\end{cases} \\) does not exist at \\( x = 0 \\)."
+                ],
+                "answer_key": [
+                    "It means that as \\( x \\) approaches \\( a \\), the function \\( f(x) \\) approaches the value \\( l \\).",
+                    "The limit is 4.",
+                    "The left-hand limit is 1 and the right-hand limit is 2, so they are not equal, hence the limit does not exist."
+                ]
+            }
+        },
+        {
+            "period_number": 3,
+            "script": {
+                "introduction": "Today, we will delve into the concept of limits, a fundamental idea in calculus that helps us understand how functions behave as they approach certain points. To start, let\u2019s think about a car approaching a stop sign. As the car gets closer to the sign, its speed decreases. We can describe this behavior using the concept of limits. Just like we can measure how fast the car is going at any moment, we can also determine the value of a function as it approaches a specific point. This is what we mean by limits!",
+                "main_body": [
+                    "Define the term 'limit': A limit is the value that a function approaches as the input approaches a certain point. For example, if we say \\( \\lim_{x \\to 2} f(x) = 4 \\), it means that as \\( x \\) gets closer to 2, the function \\( f(x) \\) gets closer to 4.",
+                    "Discuss left-hand and right-hand limits: The left-hand limit is the value that \\( f(x) \\) approaches as \\( x \\) approaches from the left (denoted as \\( \\lim_{x \\to a^-} f(x) \\)), while the right-hand limit is the value that \\( f(x) \\) approaches as \\( x \\) approaches from the right (denoted as \\( \\lim_{x \\to a^+} f(x) \\)). If these two values are not equal, the overall limit does not exist.",
+                    "Introduce instantaneous velocity: Instantaneous velocity is the limit of the average velocity as the time interval approaches zero. Mathematically, it can be expressed as \\( v = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h} \\). This shows how we can find the speed of an object at an exact moment in time.",
+                    "Explain average velocity: Average velocity is calculated over a finite interval and is given by the formula \\( \\frac{f(b) - f(a)}{b - a} \\). This is different from instantaneous velocity, which looks at an infinitesimally small interval."
+                ],
+                "conclusion": "In summary, understanding limits is crucial for grasping more complex concepts in calculus, such as derivatives. Remember, limits help us analyze how functions behave near specific points, and they are foundational for defining instantaneous velocity."
+            },
+            "activity": {
+                "title": "Limit Exploration",
+                "duration_minutes": 15,
+                "materials_needed": [],
+                "instructions": [
+                    "Divide the class into small groups of 3-4 students.",
+                    "Assign each group a different function to analyze (e.g., \\( f(x) = x^2 \\), \\( g(x) = |x| \\), and a piecewise function).",
+                    "Ask each group to calculate the left-hand limit and right-hand limit for their assigned function at a specified point (e.g., at \\( x = 0 \\) or another point relevant to their function).",
+                    "Have each group present their findings to the class, explaining whether the overall limit exists and why."
+                ]
+            },
+            "assessment": {
+                "questions": [
+                    "What is the definition of a limit?",
+                    "How do you find the left-hand limit and right-hand limit of a function?",
+                    "Explain the difference between average velocity and instantaneous velocity."
+                ],
+                "answer_key": [
+                    "A limit is the value that a function approaches as the input approaches a certain point.",
+                    "The left-hand limit is found by evaluating the function as it approaches from the left, and the right-hand limit is found by evaluating it from the right.",
+                    "Average velocity is calculated over a finite interval, while instantaneous velocity is the limit of average velocity as the interval approaches zero."
+                ]
+            }
+        },
+        {
+            "period_number": 4,
+            "script": {
+                "introduction": "Good morning, class! Today, we are diving into an exciting concept in calculus: derivatives. To start, let\u2019s think about a car moving along a road. If I ask you how fast the car is going at a specific moment, you might think about the speedometer reading. This reading tells us the instantaneous speed, which is similar to what we will learn about derivatives today!",
+                "main_body": [
+                    "We begin with the intuitive idea of derivatives. A derivative represents the rate of change of a function at a particular point. For example, if we have a function that describes the distance a body falls over time, the derivative will tell us how fast that body is falling at any given moment.",
+                    "Let\u2019s consider the function s = 4.9t\u00b2, which describes the distance fallen by an object in free fall. To find the instantaneous velocity at a specific time, we can calculate the average velocity over smaller and smaller intervals around that time.",
+                    "For instance, to find the velocity at t = 2 seconds, we can compute the average velocity between t = 1.9 and t = 2 seconds, and then between t = 2 and t = 2.1 seconds. As we make these intervals smaller, we observe that the average velocity approaches a specific value, which we define as the derivative at that point.",
+                    "From our calculations, we found that the instantaneous velocity at t = 2 seconds is between 19.551 m/s and 19.649 m/s. This means the derivative of the distance function at t = 2 is approximately 19.6 m/s."
+                ],
+                "conclusion": "In summary, derivatives help us understand how a function changes at any given point. Today, we learned how to estimate the derivative using average velocities and how this relates to the concept of instantaneous rate of change."
+            },
+            "activity": {
+                "title": "Velocity Calculation Challenge",
+                "duration_minutes": 15,
+                "materials_needed": [],
+                "instructions": [
+                    "Divide the class into small groups of 3-4 students.",
+                    "Provide each group with a set of time intervals and corresponding distances based on the function s = 4.9t\u00b2.",
+                    "Ask each group to calculate the average velocity for the given intervals leading up to t = 2 seconds and starting from t = 2 seconds.",
+                    "Once they have their results, have each group present their findings and discuss how their average velocities approach the instantaneous velocity."
+                ]
+            },
+            "assessment": {
+                "questions": [
+                    "What does the derivative of a function represent?",
+                    "How can we estimate the instantaneous rate of change using average velocities?",
+                    "Calculate the average velocity between t = 1.95 seconds and t = 2 seconds using the distance function s = 4.9t\u00b2."
+                ],
+                "answer_key": [
+                    "The derivative represents the instantaneous rate of change of a function at a specific point.",
+                    "We estimate the instantaneous rate of change by calculating average velocities over smaller and smaller intervals around the point of interest.",
+                    "Average velocity = (Distance at t=2 - Distance at t=1.95) / (2 - 1.95) = (19.6 - 18.63225) / 0.05 = 19.3515 m/s."
+                ]
+            }
+        },
+        {
+            "period_number": 5,
+            "script": {
+                "introduction": "Welcome, everyone! Today, we are diving into the fascinating world of differentiation, specifically focusing on the rules that govern how we find derivatives. Think of differentiation as a tool that helps us understand how functions change. Just like a speedometer tells you how fast a car is going at any moment, derivatives tell us the rate of change of a function at a specific point. Let's explore how we can use some simple rules to find these rates of change for polynomial and trigonometric functions!",
+                "main_body": [
+                    "Introduce the concept of derivatives and their importance in understanding the behavior of functions.",
+                    "Present Theorem 5, explaining the rules for derivatives: sum, difference, product, and quotient rules. Use analogies, such as combining ingredients in a recipe to illustrate the sum and difference rules.",
+                    "Demonstrate the product rule using the example of differentiating the function f(x) = 10x, showing how we can think of it as a product of two functions: a constant and x.",
+                    "Explain the quotient rule with the example of f(x) = (x + 1)/x, emphasizing the importance of the denominator being non-zero.",
+                    "Introduce Theorem 6, which states that the derivative of f(x) = x^n is nx^(n-1). Show how this can be derived using limits and the binomial theorem.",
+                    "Provide examples of finding derivatives of polynomial functions, such as f(x) = 6x^100 - x^55 + x, and trigonometric functions like f(x) = sin x and f(x) = tan x, emphasizing the application of the rules discussed."
+                ],
+                "conclusion": "Today, we learned how to apply the rules of differentiation to find the derivatives of polynomial and trigonometric functions. Remember, these rules are like shortcuts that make the process of finding derivatives much easier. As you practice, you'll become more comfortable with these concepts and be able to tackle more complex functions!"
+            },
+            "activity": {
+                "title": "Derivative Relay Race",
+                "duration_minutes": 15,
+                "materials_needed": [],
+                "instructions": [
+                    "Divide the class into small groups of 3-4 students.",
+                    "Provide each group with a set of functions to differentiate, including polynomials and trigonometric functions.",
+                    "Each group will work together to find the derivatives using the rules discussed in class.",
+                    "Once a group has completed a function, they will raise their hand to signal the teacher for verification.",
+                    "If correct, they can move on to the next function. If incorrect, the teacher will provide guidance to help them understand their mistake."
+                ]
+            },
+            "assessment": {
+                "questions": [
+                    "What is the derivative of f(x) = 3x^4 + 5x^2 - 2?",
+                    "Using the product rule, find the derivative of f(x) = x^2 * sin x.",
+                    "What is the derivative of f(x) = (2x + 3)/(x^2)?"
+                ],
+                "answer_key": [
+                    "12x^3 + 10x",
+                    "2x * sin x + x^2 * cos x",
+                    "(2 * x^2 - (2x + 3) * 2x)/(x^2)^2"
+                ]
+            }
+        },
+        {
+            "period_number": 6,
+            "script": {
+                "introduction": "Welcome, everyone! Today, we are diving into the fascinating world of differentiation rules. Just like how a chef follows a recipe to create a delicious dish, we will follow specific rules to differentiate functions. These rules will help us understand how functions change, which is essential in many real-world applications, such as physics and economics.",
+                "main_body": [
+                    "Introduce the concept of derivatives and their significance in understanding the rate of change of functions.",
+                    "Present Theorem 5, explaining the rules for derivatives of sums, differences, products, and quotients of functions. Use analogies such as combining ingredients in cooking to illustrate the sum and difference rules.",
+                    "Demonstrate the product rule using the analogy of multiplying two ingredients to create a new dish, emphasizing how each ingredient contributes to the final outcome.",
+                    "Explain the quotient rule by comparing it to dividing a recipe into portions, ensuring that each portion maintains its integrity while being divided.",
+                    "Provide examples of differentiating simple functions using these rules, such as f(x) = 10x and f(x) = x^2, to show practical applications of the rules."
+                ],
+                "conclusion": "In conclusion, we have learned how to apply the rules of differentiation to various functions. Remember, just like in cooking, following the right steps leads to the best results. These rules will be crucial as we explore more complex functions in the future."
+            },
+            "activity": {
+                "title": "Differentiation Relay Race",
+                "duration_minutes": 15,
+                "materials_needed": [],
+                "instructions": [
+                    "Divide the class into small groups of 4-5 students each.",
+                    "Provide each group with a set of functions to differentiate using the rules learned today.",
+                    "Each group must work together to solve the differentiation problems and write their answers on a large sheet of paper.",
+                    "Once they have completed their set, one member from each group will race to the front of the class to present their answers on the board.",
+                    "The first group to correctly present all their answers wins a small prize."
+                ]
+            },
+            "assessment": {
+                "questions": [
+                    "What is the derivative of the function f(x) = 3x^2 + 5x - 7?",
+                    "Using the product rule, find the derivative of f(x) = (2x)(x^3).",
+                    "Explain the quotient rule in your own words."
+                ],
+                "answer_key": [
+                    "f'(x) = 6x + 5",
+                    "f'(x) = 2x^4 + 6x^3",
+                    "The quotient rule states that the derivative of a quotient of two functions is found by taking the derivative of the numerator times the denominator minus the numerator times the derivative of the denominator, all divided by the square of the denominator."
+                ]
+            }
+        }
+    ]
+}

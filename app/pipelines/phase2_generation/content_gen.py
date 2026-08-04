@@ -14,7 +14,6 @@ from infrastructure.llm_gateway import llm_gateway
 class ContentGeneration:
     def __init__(self):
         pass
-    
     def retrieve_relevant_chunks(self, job_id: str, query: str, limit: int = 3) -> str:
         query_vector = vector_store.embeddings.embed_query(query)
         with SessionLocal() as db:

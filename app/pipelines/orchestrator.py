@@ -1,7 +1,7 @@
 import uuid
 import operator
 from core.logger import app_logger
-from typing import TypedDict, Annotated, Any
+from typing import TypedDict, Annotated, Any, List, Dict
 from langgraph.graph import StateGraph, START, END
 from langgraph.constants import Send
 
@@ -31,6 +31,7 @@ class PipelineState(TypedDict):
     knowledge_base: ExtractedKnowledge | None
     teaching_plan: TeachingPlan | None
     learning_gaps: LearningGapAnalysis | None
+    document_chunks : List[Dict] | None
     retry_count: int
     human_review_required: bool
     human_feedback : str
@@ -50,7 +51,7 @@ def educational_classification_node(state: PipelineState) -> dict:
     app_logger.info("Starting Educational Classification", extra={"extra_info": {"job_id": job_id, "stage": 2}})
     try:
         result: EducationalMetadata = knowledge_extractor.extract_metadata(
-            raw_markdown=state["raw_text"], job_id=job_id
+            raw_markdown=state["raw_text"][:4000], job_id=job_id
         )
         return {"metadata": result, "current_stage": "Stage 2 Complete"}
     except Exception as e:
@@ -61,9 +62,14 @@ def knowledge_extraction_node(state: PipelineState) -> dict:
     job_id = state["job_id"]
     app_logger.info("Starting Knowledge Extraction", extra={"extra_info": {"job_id": job_id, "stage": 3}})
     try:
+        # result: ExtractedKnowledge = knowledge_extractor.extract_knowledge(
+        #     metadata_json=state["metadata"], chunks=state["document_chunks"], job_id=job_id
+        # )
+        
         result: ExtractedKnowledge = knowledge_extractor.extract_knowledge(
             metadata_json=state["metadata"], raw_markdown=state["raw_text"], job_id=job_id
         )
+        
         return {"knowledge_base": result, "current_stage": "Stage 3 Complete"}
     except Exception as e:
         app_logger.error(f"Extraction failed: {str(e)}", extra={"extra_info": {"job_id": job_id}})
@@ -75,7 +81,7 @@ def vectorization_node(state: PipelineState) -> dict:
     try:
         chunks = document_chunker.chunk_markdown(state["raw_text"])
         vector_store.ingest_chunks(job_id=job_id, chunks=chunks)
-        return {"current_stage": "Stage 3.5 Complete"}
+        return {"document_chunks": chunks ,"current_stage": "Stage 3.5 Complete"}
     except Exception as e:
         app_logger.error(f"Vectorization failed: {str(e)}", extra={"extra_info": {"job_id": job_id}})
         raise ExtractionError(message="Stage 3.5 Failed", details={"job_id": job_id})
@@ -234,9 +240,9 @@ def build_tkp_pipeline(checkpointer: PostgresSaver):
 
     # Sequential Core Flow
     workflow.add_edge(START, "classify")
-    workflow.add_edge("classify", "extract")
-    workflow.add_edge("extract", "vectorize")
-    workflow.add_edge("vectorize", "plan")
+    workflow.add_edge("classify", "vectorize")
+    workflow.add_edge("vectorize", "extract")
+    workflow.add_edge("extract", "plan")
     workflow.add_edge("plan", "analyze_gaps") 
     workflow.add_edge("package_tkp", END)
     # Dynamic Map-Reduce Fan-Out (Now triggers after gaps are analyzed)

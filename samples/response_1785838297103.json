@@ -1,0 +1,407 @@
+{
+  "job_id": "8e296503-cee8-40a7-ae17-d4c7afe60b0d",
+  "status": "SUCCESS",
+  "stage": "Completed",
+  "result": {
+    "stage": "Complete",
+    "status": "SUCCESS",
+    "data": {
+      "metadata": {
+        "subject": "Mathematics",
+        "grade": "11th Grade",
+        "difficulty": "Intermediate",
+        "topic": "Continuity and Differentiability",
+        "chapter": "Differential Calculus",
+        "category": "STEM",
+        "language": "Hindi"
+      },
+      "knowledge_base": {
+        "learning_objectives": [
+          "Define continuity and differentiability in mathematical terms.",
+          "Identify points of continuity and discontinuity in piecewise functions.",
+          "Apply the concepts of limits to determine continuity at specific points.",
+          "Differentiate between continuous and discontinuous functions using examples."
+        ],
+        "prerequisites": [
+          "Understanding of functions and their graphs.",
+          "Basic knowledge of limits and their properties.",
+          "Familiarity with algebraic manipulation of functions."
+        ],
+        "concepts": [
+          "Continuity of functions",
+          "Differentiability of functions",
+          "Limits and their application in determining continuity",
+          "Piecewise functions and their continuity",
+          "Inverse trigonometric functions and their derivatives",
+          "Exponential and logarithmic functions and their properties"
+        ],
+        "key_terms": [
+          {
+            "term": "सांतत्य (Continuity)",
+            "definition": "एक फलन सतत है यदि उसके प्रांत के किसी बिंदु पर उसकी सीमा उस बिंदु पर फलन के मान के बराबर है।"
+          },
+          {
+            "term": "अवकलनीयता (Differentiability)",
+            "definition": "एक फलन अवकलनीय है यदि उसके किसी बिंदु पर अवकलज का अस्तित्व हो।"
+          },
+          {
+            "term": "असंतत्य (Discontinuity)",
+            "definition": "एक फलन असंतत है यदि उसके प्रांत के किसी बिंदु पर उसकी सीमा उस बिंदु पर फलन के मान के बराबर नहीं है।"
+          },
+          {
+            "term": "प्रतिलोम त्रिकोणमितीय फलन (Inverse Trigonometric Functions)",
+            "definition": "वे फलन जो त्रिकोणमितीय फलनों के प्रतिलोम होते हैं, जैसे कि sin⁻¹, cos⁻¹, tan⁻¹।"
+          },
+          {
+            "term": "चरघातांकी फलन (Exponential Function)",
+            "definition": "एक फलन जो एक निश्चित धनात्मक आधार के लिए एक चर के घातांक के रूप में व्यक्त किया जाता है।"
+          },
+          {
+            "term": "लघुगणकीय फलन (Logarithmic Function)",
+            "definition": "एक फलन जो किसी धनात्मक संख्या के लिए उसके आधार के सापेक्ष लघुगणक के रूप में व्यक्त किया जाता है।"
+          }
+        ],
+        "formulae": [
+          "\n\text{एक फलन } f \text{ सतत है यदि: }\n\begin{align*}\n\text{lim}_{x \to c} f(x) = f(c)\text{ है।}\n\text{ }\n\text{एक फलन } f \text{ अवकलनीय है यदि: }\n\begin{align*}\n\text{lim}_{h \to 0} \frac{f(c+h) - f(c)}{h} \text{ का अस्तित्व हो।}\n\text{ }\n\text{सांतत्य की परिभाषा: }\n\text{ }\n\text{एक फलन } f \text{ संतत है यदि: }\n\text{ }\n\text{lim}_{x \to c} f(x) = f(c)\text{ है।}\n\text{ }\n\text{अवकलन के नियम: }\n\begin{align*}\n(u \times v)' = u'v + uv'\\\text{ }\n(u/v)' = \frac{u'v - uv'}{v^2}\text{ (जहाँ } v \neq 0)\n\text{ }\n\text{दूसरे क्रम का अवकलज: }\n\frac{d^2y}{dx^2} = \frac{d}{dx}\frac{dy}{dx}\text{।}\n\n\n"
+        ],
+        "misconceptions": [
+          "Students may confuse continuity with differentiability, thinking that if a function is continuous, it must also be differentiable.",
+          "Students might believe that all piecewise functions are discontinuous without checking the limits at the points of interest.",
+          "Some students may think that a function can be continuous at a point even if the left-hand limit and right-hand limit do not match."
+        ]
+      },
+      "teaching_plan": {
+        "total_periods": 6,
+        "rationale": "The pacing is designed to gradually build understanding from prerequisites to complex applications, ensuring that students grasp foundational concepts before moving on to more advanced topics. Each period focuses on specific learning outcomes, allowing for thorough exploration and practice of each concept.",
+        "periods": [
+          {
+            "period_number": 1,
+            "focus_topic": "Prerequisites for Continuity and Differentiability",
+            "learning_outcome": "Students will understand the foundational concepts of functions, limits, and algebraic manipulation.",
+            "concepts_covered": [
+              "Understanding of functions and their graphs.",
+              "Basic knowledge of limits and their properties.",
+              "Familiarity with algebraic manipulation of functions."
+            ],
+            "estimated_minutes": 40
+          },
+          {
+            "period_number": 2,
+            "focus_topic": "Introduction to Continuity",
+            "learning_outcome": "Students will be able to define continuity and identify points of continuity in functions.",
+            "concepts_covered": [
+              "Continuity of functions",
+              "KeyTerm(term='सांतत्य (Continuity)', definition='एक फलन सतत है यदि उसके प्रांत के किसी बिंदु पर उसकी सीमा उस बिंदु पर फलन के मान के बराबर है।')"
+            ],
+            "estimated_minutes": 40
+          },
+          {
+            "period_number": 3,
+            "focus_topic": "Discontinuity and Piecewise Functions",
+            "learning_outcome": "Students will identify points of discontinuity and apply limits to piecewise functions.",
+            "concepts_covered": [
+              "Piecewise functions and their continuity",
+              "KeyTerm(term='असंतत्य (Discontinuity)', definition='एक फलन असंतत है यदि उसके प्रांत के किसी बिंदु पर उसकी सीमा उस बिंदु पर फलन के मान के बराबर नहीं है।')",
+              "Misconceptions regarding piecewise functions."
+            ],
+            "estimated_minutes": 40
+          },
+          {
+            "period_number": 4,
+            "focus_topic": "Differentiability of Functions",
+            "learning_outcome": "Students will define differentiability and differentiate between continuous and discontinuous functions.",
+            "concepts_covered": [
+              "Differentiability of functions",
+              "KeyTerm(term='अवकलनीयता (Differentiability)', definition='एक फलन अवकलनीय है यदि उसके किसी बिंदु पर अवकलज का अस्तित्व हो।')"
+            ],
+            "estimated_minutes": 40
+          },
+          {
+            "period_number": 5,
+            "focus_topic": "Limits and Their Application",
+            "learning_outcome": "Students will apply limits to determine continuity at specific points.",
+            "concepts_covered": [
+              "Limits and their application in determining continuity",
+              "Formulae related to continuity and differentiability."
+            ],
+            "estimated_minutes": 40
+          },
+          {
+            "period_number": 6,
+            "focus_topic": "Advanced Functions and Derivatives",
+            "learning_outcome": "Students will explore inverse trigonometric functions and their derivatives, along with exponential and logarithmic functions.",
+            "concepts_covered": [
+              "Inverse trigonometric functions and their derivatives",
+              "Exponential and logarithmic functions and their properties",
+              "KeyTerm(term='प्रतिलोम त्रिकोणमितीय फलन (Inverse Trigonometric Functions)', definition='वे फलन जो त्रिकोणमितीय फलनों के प्रतिलोम होते हैं, जैसे कि sin⁻¹, cos⁻¹, tan⁻¹।')",
+              "KeyTerm(term='चरघातांकी फलन (Exponential Function)', definition='एक फलन जो एक निश्चित धनात्मक आधार के लिए एक चर के घातांक के रूप में व्यक्त किया जाता है।')",
+              "KeyTerm(term='लघुगणकीय फलन (Logarithmic Function)', definition='एक फलन जो किसी धनात्मक संख्या के लिए उसके आधार के सापेक्ष लघुगणक के रूप में व्यक्त किया जाता है।')"
+            ],
+            "estimated_minutes": 40
+          }
+        ]
+      },
+      "learning_gaps": {
+        "gaps": [
+          {
+            "misconception": "Students may confuse continuity with differentiability, thinking that if a function is continuous, it must also be differentiable.",
+            "severity_level": "High",
+            "diagnostic_question": "क्या आप बता सकते हैं कि एक निरंतर फ़ंक्शन का व्युत्पन्न होना आवश्यक क्यों नहीं है?",
+            "remedial_action": "उदाहरण के लिए, एक ग्राफ पर एक निरंतर फ़ंक्शन और एक नुकीला बिंदु दिखाएँ जहाँ फ़ंक्शन निरंतर है लेकिन व्युत्पन्न नहीं है। छात्रों से पूछें कि क्या वे उस बिंदु पर ढलान की कल्पना कर सकते हैं।"
+          },
+          {
+            "misconception": "Students might believe that all piecewise functions are discontinuous without checking the limits at the points of interest.",
+            "severity_level": "Medium",
+            "diagnostic_question": "क्या आप एक टुकड़ा-टुकड़ा फ़ंक्शन का उदाहरण दे सकते हैं जो निरंतर है? आप इसे कैसे साबित करेंगे?",
+            "remedial_action": "छात्रों को एक टुकड़ा-टुकड़ा फ़ंक्शन दें और उन्हें सीमाओं की गणना करने के लिए कहें। उन्हें दिखाएँ कि कैसे सीमाएँ एक बिंदु पर मिलती हैं और यह निरंतरता को निर्धारित करती हैं।"
+          },
+          {
+            "misconception": "Some students may think that a function can be continuous at a point even if the left-hand limit and right-hand limit do not match.",
+            "severity_level": "High",
+            "diagnostic_question": "क्या आप समझा सकते हैं कि यदि बाएँ और दाएँ सीमाएँ मेल नहीं खाती हैं, तो फ़ंक्शन उस बिंदु पर निरंतर क्यों नहीं हो सकता?",
+            "remedial_action": "एक ग्राफ पर एक फ़ंक्शन दिखाएँ जहाँ बाएँ और दाएँ सीमाएँ भिन्न हैं। छात्रों से पूछें कि क्या वे उस बिंदु पर फ़ंक्शन को निरंतर मान सकते हैं और क्यों।"
+          }
+        ]
+      },
+      "period_contents": [
+        {
+          "period_number": 1,
+          "script": {
+            "introduction": "नमस्कार छात्रों! आज हम एक महत्वपूर्ण विषय पर चर्चा करने जा रहे हैं, जो है सांतत्य और अवकलनीयता। क्या आपने कभी सोचा है कि जब हम किसी फलन का ग्राफ बनाते हैं, तो वह कैसे दिखता है? क्या वह एक निरंतर रेखा है या उसमें कोई ब्रेक है? आज हम इन सवालों के जवाब खोजेंगे।",
+            "main_body": [
+              "फलन (function) क्या होता है? एक फलन एक ऐसा संबंध है जो हर इनपुट (x) के लिए एक आउटपुट (y) देता है।",
+              "फलनों के ग्राफ को समझना बहुत महत्वपूर्ण है। ग्राफ हमें यह दिखाता है कि फलन कैसे व्यवहार करता है।",
+              "सीमा (limit) का अर्थ है कि जब हम किसी बिंदु के करीब पहुँचते हैं, तो फलन का मान क्या होता है। यह सांतत्य की एक महत्वपूर्ण विशेषता है।",
+              "सांतत्य का अर्थ है कि फलन का ग्राफ बिना किसी ब्रेक के चलता है। यदि किसी बिंदु पर फलन की सीमा उस बिंदु पर फलन के मान के बराबर है, तो वह बिंदु संतत है।",
+              "अवकलनीयता का अर्थ है कि हम फलन की दर को कैसे बदलते हैं। हर अवकलनीय फलन संतत होता है, लेकिन इसका उल्टा सही नहीं है।",
+              "अल्जेब्राईक संचलन (algebraic manipulation) का उपयोग करके हम फलनों को जोड़, घटा, गुणा और भाग कर सकते हैं। यदि $f$ और $g$ संतत फलन हैं, तो $(f \times g)$ भी संतत होगा।"
+            ],
+            "conclusion": "आज हमने सांतत्य और अवकलनीयता के लिए आवश्यक कुछ मूलभूत अवधारणाओं पर चर्चा की। याद रखें, एक संतत फलन का ग्राफ बिना किसी ब्रेक के चलता है और अवकलनीयता हमें फलन के परिवर्तन की दर को समझने में मदद करती है।"
+          },
+          "activity": {
+            "title": "फलनों का ग्राफ बनाना",
+            "duration_minutes": 15,
+            "materials_needed": [
+              "ग्राफ पेपर",
+              "पेंसिल",
+              "गणना करने के लिए कैलकुलेटर"
+            ],
+            "instructions": [
+              "छात्रों को ग्राफ पेपर और पेंसिल दें।",
+              "उन्हें कुछ सरल फलनों जैसे $f(x) = x^2$ और $g(x) = \frac{1}{x}$ का ग्राफ बनाने के लिए कहें।",
+              "छात्रों को बताएं कि वे फलनों के विभिन्न मानों के लिए आउटपुट की गणना करें और उन्हें ग्राफ पेपर पर अंकित करें।",
+              "जब ग्राफ तैयार हो जाए, तो छात्रों से पूछें कि क्या ग्राफ में कोई ब्रेक है और क्या फलन संतत है।"
+            ]
+          },
+          "assessment": {
+            "questions": [
+              "फलन क्या होता है?",
+              "सांतत्य का क्या अर्थ है?",
+              "यदि $f$ और $g$ संतत फलन हैं, तो $(f + g)$ का क्या होगा?"
+            ],
+            "answer_key": [
+              "फलन एक ऐसा संबंध है जो हर इनपुट के लिए एक आउटपुट देता है।",
+              "सांतत्य का अर्थ है कि फलन का ग्राफ बिना किसी ब्रेक के चलता है।",
+              "$(f + g)$ भी संतत होगा।"
+            ]
+          }
+        },
+        {
+          "period_number": 2,
+          "script": {
+            "introduction": "नमस्कार छात्रों! आज हम एक बहुत महत्वपूर्ण विषय पर चर्चा करेंगे, जिसे हम 'सांतत्य' कहते हैं। क्या आपने कभी सोचा है कि एक फलन कब सतत होता है? चलिए, हम एक सरल उदाहरण से शुरुआत करते हैं। मान लीजिए, आपके पास एक रेखा है, और आप इसे बिना कलम उठाए खींचना चाहते हैं। अगर आप किसी बिंदु पर रुकते हैं, तो क्या वह रेखा सतत है? आज हम इसी प्रश्न का उत्तर खोजेंगे।",
+            "main_body": [
+              "सांतत्य की परिभाषा: एक फलन सतत है यदि उसके प्रांत के किसी बिंदु पर उसकी सीमा उस बिंदु पर फलन के मान के बराबर है।",
+              "उदाहरण 1: फलन f(x) = 2x + 3 पर विचार करें। जब हम x = 1 पर इसकी संतत्य की जाँच करते हैं, तो हमें पता चलता है कि f(1) = 5 और \u000blim_{x\\to1} f(x) = 5 है। इसलिए, f(x) x = 1 पर सतत है।",
+              "उदाहरण 2: अब एक अन्य फलन पर विचार करें, f(x) = {1, यदि x ≤ 0; 2, यदि x > 0}। यहाँ, x = 0 पर बाएँ और दाएँ पक्ष की सीमाएँ समान नहीं हैं, इसलिए यह फलन x = 0 पर असंतत है।",
+              "संतत्य की पहचान: यदि हम किसी फलन के ग्राफ को बिना कलम उठाए खींच सकते हैं, तो वह फलन सतत है।",
+              "संतत्य की गणितीय परिभाषा: यदि x = c पर फलन f सतत है, तो \u000blim_{x \\to c} f(x) = f(c) होना चाहिए।"
+            ],
+            "conclusion": "आज हमने सांतत्य की परिभाषा और उसके उदाहरणों के माध्यम से इसे समझा। याद रखें, एक फलन तब सतत होता है जब उसकी सीमा और मान एक समान होते हैं। अगली कक्षा में हम असंतत्य के बिंदुओं पर चर्चा करेंगे।"
+          },
+          "activity": {
+            "title": "संतत्य की खोज",
+            "duration_minutes": 15,
+            "materials_needed": [],
+            "instructions": [
+              "छात्रों को दो फलनों के ग्राफ दिए जाएँ: एक सतत फलन और एक असंतत फलन।",
+              "छात्रों को ग्राफ पर बिंदुओं को चिह्नित करने के लिए कहें जहाँ फलन सतत है और जहाँ असंतत है।",
+              "छात्रों को समूहों में बाँटें और उन्हें अपने विचार साझा करने के लिए कहें कि क्यों वे उन बिंदुओं को सतत या असंतत मानते हैं।",
+              "समूहों से चर्चा के बाद, कक्षा में साझा करें।"
+            ]
+          },
+          "assessment": {
+            "questions": [
+              "संतत्य की परिभाषा क्या है?",
+              "फलन f(x) = 2x + 3 x = 1 पर सतत क्यों है?",
+              "एक फलन कब असंतत कहलाता है?"
+            ],
+            "answer_key": [
+              "एक फलन सतत है यदि उसके प्रांत के किसी बिंदु पर उसकी सीमा उस बिंदु पर फलन के मान के बराबर है।",
+              "क्योंकि f(1) = 5 और \u000blim_{x\\to1} f(x) = 5 है।",
+              "जब बाएँ और दाएँ पक्ष की सीमाएँ समान नहीं होती हैं।"
+            ]
+          }
+        },
+        {
+          "period_number": 3,
+          "script": {
+            "introduction": "आज हम असंतत्य और टुकड़ों में परिभाषित फलनों (piecewise functions) के बारे में चर्चा करेंगे। क्या आप जानते हैं कि एक फलन असंतत कब होता है? चलिए, पहले एक उदाहरण देखते हैं। मान लीजिए, हमारे पास एक फलन है: f(x) = { 1, यदि x < 0; 2, यदि x ≥ 0। क्या आप बता सकते हैं कि क्या यह फलन असंतत है?",
+            "main_body": [
+              "हम असंतत्य की परिभाषा को समझते हैं: एक फलन असंतत है यदि उसके प्रांत के किसी बिंदु पर उसकी सीमा उस बिंदु पर फलन के मान के बराबर नहीं है।",
+              "अब हम टुकड़ों में परिभाषित फलनों पर ध्यान केंद्रित करेंगे। टुकड़ों में परिभाषित फलन वह होता है जो विभिन्न अंतरालों पर विभिन्न नियमों के अनुसार परिभाषित होता है।",
+              "उदाहरण के लिए, f(x) = { x + 2, यदि x < 1; 0, यदि x = 1; x - 2, यदि x > 1। इस फलन के असंतत्य बिंदुओं की पहचान करें।",
+              "इस फलन के लिए, x = 1 पर बाएँ और दाएँ पक्ष की सीमाएँ अलग हैं। इसलिए, x = 1 पर यह फलन असंतत है।",
+              "हम यह भी देखेंगे कि कैसे हम सीमाओं का उपयोग करके असंतत्य बिंदुओं की पहचान कर सकते हैं।"
+            ],
+            "conclusion": "इस प्रकार, हमने असंतत्य और टुकड़ों में परिभाषित फलनों के बीच संबंध को समझा। याद रखें, असंतत्य बिंदु वह होता है जहाँ फलन की सीमा और फलन का मान समान नहीं होते।"
+          },
+          "activity": {
+            "title": "असंतत्य की पहचान",
+            "duration_minutes": 15,
+            "materials_needed": [],
+            "instructions": [
+              "छात्रों को एक टुकड़ों में परिभाषित फलन दें, जैसे: f(x) = { x + 1, यदि x < 0; x^2, यदि x ≥ 0।",
+              "छात्रों को निर्देश दें कि वे इस फलन के असंतत्य बिंदुओं की पहचान करें।",
+              "छात्रों को सीमाओं का उपयोग करके फलन के विभिन्न बिंदुओं पर मूल्यांकन करने के लिए कहें।",
+              "छात्रों को समूहों में चर्चा करने के लिए कहें कि क्या फलन असंतत है और क्यों।"
+            ]
+          },
+          "assessment": {
+            "questions": [
+              "फलन f(x) = { 1, यदि x < 0; 3, यदि x = 0; 2, यदि x > 0। के असंतत्य बिंदु क्या हैं?",
+              "एक टुकड़ों में परिभाषित फलन के लिए असंतत्य की पहचान कैसे की जाती है?",
+              "क्या सभी टुकड़ों में परिभाषित फलन असंतत होते हैं?"
+            ],
+            "answer_key": [
+              "x = 0 पर असंतत्य है।",
+              "सीमाओं का उपयोग करके।",
+              "नहीं, कुछ टुकड़ों में परिभाषित फलन सतत भी हो सकते हैं।"
+            ]
+          }
+        },
+        {
+          "period_number": 4,
+          "script": {
+            "introduction": "नमस्ते छात्रों! आज हम अवकलनीयता (Differentiability) के बारे में चर्चा करेंगे। क्या आप जानते हैं कि जब हम किसी फलन का अवकलज निकालते हैं, तो हम वास्तव में उस फलन की गति को समझने की कोशिश कर रहे हैं? जैसे कि एक गाड़ी की गति को जानने के लिए हमें यह जानना होता है कि वह किसी विशेष समय पर कितनी तेज चल रही है। इसी तरह, अवकलनीयता हमें बताती है कि फलन किसी बिंदु पर कैसे व्यवहार करता है।",
+            "main_body": [
+              "अवकलनीयता का अर्थ है कि एक फलन अवकलनीय है यदि उसके किसी बिंदु पर अवकलज का अस्तित्व हो।",
+              "हम इसे निम्नलिखित सीमा के माध्यम से परिभाषित करते हैं: $$f'(c) = \text{lim}_{h \to 0} \\frac{f(c + h) - f(c)}{h}$$",
+              "यदि यह सीमा अस्तित्व में है, तो हम कहते हैं कि फलन अवकलनीय है।",
+              "यदि सीमा का अस्तित्व नहीं है, तो हम कहते हैं कि फलन अवकलनीय नहीं है।",
+              "एक फलन संतत (continuous) होता है यदि उसके सभी बिंदुओं पर उसकी सीमाएँ समान होती हैं।",
+              "हमने देखा है कि यदि एक फलन किसी बिंदु पर अवकलनीय है, तो वह उस बिंदु पर संतत भी होता है।",
+              "उदाहरण के लिए, $f(x) = |x|$ एक संतत फलन है लेकिन यह $x=0$ पर अवकलनीय नहीं है।"
+            ],
+            "conclusion": "इस प्रकार, आज हमने अवकलनीयता की परिभाषा और संततता के बीच के संबंध को समझा। याद रखें, अवकलनीयता का अर्थ है कि फलन के किसी बिंदु पर अवकलज का अस्तित्व होना।"
+          },
+          "activity": {
+            "title": "अवकलनीयता का खेल",
+            "duration_minutes": 15,
+            "materials_needed": [],
+            "instructions": [
+              "छात्रों को दो समूहों में बांटें।",
+              "हर समूह को एक फलन दिया जाएगा, जैसे $f(x) = x^2$ और $g(x) = |x|$।",
+              "छात्रों को अपने फलनों के लिए अवकलनीयता की जांच करनी है।",
+              "वे सीमा का उपयोग करके यह निर्धारित करेंगे कि फलन अवकलनीय है या नहीं।",
+              "हर समूह को 5 मिनट का समय दें और फिर उनके निष्कर्ष साझा करने के लिए आमंत्रित करें।"
+            ]
+          },
+          "assessment": {
+            "questions": [
+              "एक फलन अवकलनीय है यदि उसके किसी बिंदु पर क्या होता है?",
+              "क्या $f(x) = |x|$ अवकलनीय है? यदि नहीं, तो क्यों?",
+              "संतत फलन और अवकलनीय फलन में क्या अंतर है?"
+            ],
+            "answer_key": [
+              "यदि उसके किसी बिंदु पर अवकलज का अस्तित्व हो।",
+              "नहीं, क्योंकि $x=0$ पर बाएँ और दाएँ पक्ष की सीमाएँ समान नहीं हैं।",
+              "संतत फलन वह होता है जिसकी सीमाएँ समान होती हैं, जबकि अवकलनीय फलन का अवकलज उस बिंदु पर अस्तित्व में होना चाहिए।"
+            ]
+          }
+        },
+        {
+          "period_number": 5,
+          "script": {
+            "introduction": "आज हम सांतत्य और अवकलनीयता के महत्वपूर्ण विषय पर चर्चा करेंगे। क्या आपने कभी सोचा है कि एक फलन कब संतत होता है? चलिए, हम एक सरल फलन लेते हैं और देखते हैं कि क्या वह संतत है।",
+            "main_body": [
+              "सांतत्य (continuity) का अर्थ है कि फलन का मान किसी विशेष बिंदु पर बिना किसी रुकावट के बदलता है।",
+              "हम पहले यह देखेंगे कि फलन x = 1 पर संतत है या नहीं।",
+              "फलन f(x) = 2x + 3 को लेते हैं। सबसे पहले, हमें यह देखना होगा कि क्या यह फलन x = 1 पर परिभाषित है।",
+              "x = 1 पर, f(1) = 2(1) + 3 = 5 है।",
+              "अब हमें यह देखना है कि क्या \u000b\u000b\u000b\text{lim}_{x \to 1} f(x) = f(1) है।",
+              "हम \u000b\text{lim}_{x \to 1} f(x) की गणना करते हैं: \u000b\text{lim}_{x \to 1} (2x + 3) = 2(1) + 3 = 5।",
+              "इसलिए, \u000b\text{lim}_{x \to 1} f(x) = 5 = f(1) है।",
+              "इसका अर्थ है कि फलन x = 1 पर संतत है।"
+            ],
+            "conclusion": "इस प्रकार, हमने देखा कि फलन की संतत्य की जाँच करने के लिए हमें उसके मान और सीमा की तुलना करनी होती है।"
+          },
+          "activity": {
+            "title": "संतत्य की खोज",
+            "duration_minutes": 15,
+            "materials_needed": [],
+            "instructions": [
+              "छात्रों को छोटे समूहों में बांटें।",
+              "हर समूह को एक फलन दें, जैसे f(x) = x^2, g(x) = 1/x, आदि।",
+              "छात्रों को निर्देश दें कि वे दिए गए फलन के लिए संतत्य की जाँच करें।",
+              "उन्हें x = 0, x = 1, और अन्य बिंदुओं पर संतत्य की जाँच करने के लिए कहें।",
+              "समूहों को अपने निष्कर्ष साझा करने के लिए कहें।"
+            ]
+          },
+          "assessment": {
+            "questions": [
+              "फलन f(x) = 2x + 3 के लिए x = 1 पर संतत्य की जाँच कैसे की जाती है?",
+              "यदि \u000b\text{lim}_{x \to a} f(x) = L है और f(a) = L है, तो क्या फलन संतत है?",
+              "एक फलन के संतत होने की शर्तें क्या हैं?"
+            ],
+            "answer_key": [
+              "फलन की परिभाषा और सीमा की तुलना करके।",
+              "हाँ, फलन संतत है।",
+              "फलन x = a पर परिभाषित होना चाहिए, और \u000b\text{lim}_{x \to a} f(x) = f(a) होना चाहिए।"
+            ]
+          }
+        },
+        {
+          "period_number": 6,
+          "script": {
+            "introduction": "नमस्कार छात्रों! आज हम एक महत्वपूर्ण विषय पर चर्चा करेंगे, जो है प्रतिलोम त्रिकोणमितीय फलन और उनके अवकलज। क्या आप जानते हैं कि त्रिकोणमितीय फलनों के प्रतिलोम क्या होते हैं? आइए, हम इसे समझने के लिए एक उदाहरण लेते हैं। यदि हम $y = \tan^{-1} x$ लेते हैं, तो इसका अर्थ है कि $x = \tan y$। क्या आप जानते हैं कि इस फलन का अवकलज क्या होगा?",
+            "main_body": [
+              "प्रतिलोम त्रिकोणमितीय फलन वे फलन हैं जो त्रिकोणमितीय फलनों के प्रतिलोम होते हैं, जैसे कि $sin^{-1} x$, $cos^{-1} x$, और $tan^{-1} x$।",
+              "इन फलनों के अवकलज ज्ञात करने के लिए हम श्रृंखला नियम का प्रयोग करते हैं। उदाहरण के लिए, $f(x) = sin^{-1} x$ का अवकलज ज्ञात करने के लिए हम मान लेते हैं कि $y = sin^{-1} x$, तो $x = sin y$।",
+              "अब, दोनों पक्षों का $x$ के सापेक्ष अवकलन करते हैं: $1 = cos y \frac{dy}{dx}$। इससे हमें $\frac{dy}{dx} = \frac{1}{cos y}$ मिलता है।",
+              "चूँकि $cos y = \frac{1}{\text{sqrt}(1-x^2)}$ है, इसलिए $f'(x) = \frac{1}{\text{sqrt}(1-x^2)}$।",
+              "अब हम चरघातांकी और लघुगणकीय फलनों पर चर्चा करेंगे। चरघातांकी फलन $y = b^x$ के लिए, जहाँ $b > 1$, इसका अवकलज $f'(x) = b^x \text{ln}(b)$ होता है।",
+              "लघुगणकीय फलन $y = log_b x$ का अवकलज $f'(x) = \frac{1}{x \text{ln}(b)}$ होता है।",
+              "इन फलनों की कुछ महत्वपूर्ण विशेषताएँ हैं: चरघातांकी फलन सदैव वर्धमान होता है और लघुगणकीय फलन भी वर्धमान होता है।"
+            ],
+            "conclusion": "आज हमने प्रतिलोम त्रिकोणमितीय फलनों और उनके अवकलजों के साथ-साथ चरघातांकी और लघुगणकीय फलनों के गुणों पर चर्चा की। यह समझना महत्वपूर्ण है कि ये फलन कैसे काम करते हैं और उनके अवकलन के नियम क्या हैं।"
+          },
+          "activity": {
+            "title": "फंक्शन मिक्सर",
+            "duration_minutes": 15,
+            "materials_needed": [],
+            "instructions": [
+              "छात्रों को छोटे समूहों में बांटें।",
+              "प्रत्येक समूह को एक प्रतिलोम त्रिकोणमितीय फलन और एक चरघातांकी फलन दें।",
+              "समूह को इन फलनों के अवकलज ज्ञात करने के लिए कहें।",
+              "फिर, समूहों को अपने उत्तर साझा करने के लिए आमंत्रित करें।",
+              "समूहों को यह भी बताएं कि इन फलनों का उपयोग कहाँ किया जा सकता है।"
+            ]
+          },
+          "assessment": {
+            "questions": [
+              "$f(x) = sin^{-1} x$ का अवकलज क्या है?",
+              "चरघातांकी फलन का अवकलज क्या होता है?",
+              "लघुगणकीय फलन के अवकलन का नियम क्या है?"
+            ],
+            "answer_key": [
+              "$f'(x) = \frac{1}{\text{sqrt}(1-x^2)}$",
+              "$f'(x) = b^x \text{ln}(b)$",
+              "$f'(x) = \frac{1}{x \text{ln}(b)}$"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
