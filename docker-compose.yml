@@ -18,7 +18,7 @@ services:
   celery_worker:
     build: .
     container_name: gyansetu_celery
-    command: celery -A api.celery_worker.celery_app worker --loglevel=info
+    command: celery -A api.celery_app.celery_app worker --loglevel=info
     environment:
       - DATABASE_URL=postgresql://gyan_user:gyan_pass@db:5432/gyansetu_db
       - REDIS_URL=redis://redis:6379/0
@@ -30,7 +30,7 @@ services:
   # -------------------------------------------
 
   db:
-    image: postgres:15-alpine
+    image: pgvector/pgvector:pg16
     container_name: gyansetu_postgres
     environment:
       POSTGRES_USER: gyan_user

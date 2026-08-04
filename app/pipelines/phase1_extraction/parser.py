@@ -48,7 +48,7 @@ class DocumentParser:
             )
             
             full_markdown = result.markdown_full
-            print(full_markdown)
+            # print(full_markdown)
             Path(f"../data/{self.FILE_ID}.md").write_text(full_markdown or "", encoding="utf-8")
             
             b64_str_lst = {}

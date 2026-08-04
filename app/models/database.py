@@ -2,14 +2,25 @@ import enum
 import os
 from typing import Any, Optional
 from datetime import datetime
-from sqlalchemy import String, Enum, DateTime, func, ForeignKey, Text, create_engine
+from sqlalchemy import String, Enum, DateTime, func, ForeignKey, Text, create_engine, text
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker, declarative_base
 from pgvector.sqlalchemy import Vector
 from core.config import DB_CONNECTION_STRING
 
 engine = create_engine(DB_CONNECTION_STRING)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def init_db():
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+            conn.commit()
+            
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        raise e
+    
 # ---------------------------------------------------------
 
 class Base(DeclarativeBase):

@@ -7,12 +7,20 @@ from api.routes import router as api_router
 from api.schemas import APIResponse
 from core.exceptions import LLMGenerationError, ExtractionError
 from core.logger import app_logger
+from models.database import init_db
+from contextlib import asynccontextmanager
 
-# 1. Bootstrapping the Application
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Everything before the yield happens on startup
+    init_db()
+    yield
+
 app = FastAPI(
     title="Teacher AI Platform API",
     description="10-Stage Pipeline API for generating Teacher Knowledge Packages (TKP).",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # 2. CORS Middleware (Protecting the perimeter)

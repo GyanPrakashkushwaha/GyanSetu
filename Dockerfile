@@ -21,5 +21,8 @@ EXPOSE 8000
 
 WORKDIR /app/app
 
+# Tell Python where the root of your modules are
+ENV PYTHONPATH=/app/app
+
 # Command to run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
