@@ -4,8 +4,8 @@
 
 ## 🚀 Live Deployment
 
-* **Frontend (Vercel):** [https://gyan-setu-frontend-t6o1.vercel.app/](https://gyan-setu-frontend-t6o1.vercel.app/)
-* **Backend API (AWS):** [http://18.206.168.179:8000/docs](http://18.206.168.179:8000/docs)
+* **Frontend (Vercel):** [http://GyanSetu-Frontend/](http://3.95.214.56/)
+* **Backend API (AWS):** [http://18.206.168.179:8000/docs](http://98.89.33.181:8000/docs)
 * **GitHub Frontend:** [GyanPrakashkushwaha/GyanSetu-Frontend](https://github.com/GyanPrakashkushwaha/GyanSetu-Frontend)
 * **GitHub Backend:** [GyanPrakashkushwaha/GyanSetu](https://github.com/GyanPrakashkushwaha/GyanSetu)
 
