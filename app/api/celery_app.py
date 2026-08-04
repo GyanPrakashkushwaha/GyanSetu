@@ -17,5 +17,11 @@ celery_app.conf.update(
     task_serializer="json",
     result_serializer="json",
     accept_content=["json"],
-    task_track_started=True
+    task_track_started=True,
+    broker_use_ssl={
+        'ssl_cert_reqs': 0 # 0 corresponds to CERT_NONE if using upstash over standard celery
+    },
+    redis_backend_use_ssl={
+        'ssl_cert_reqs': 0
+    }
 )

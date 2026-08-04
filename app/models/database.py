@@ -8,7 +8,14 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker,
 from pgvector.sqlalchemy import Vector
 from core.config import DB_CONNECTION_STRING
 
-engine = create_engine(DB_CONNECTION_STRING)
+engine = create_engine(
+    DB_CONNECTION_STRING,
+    connect_args={
+        "options": "-c plan_cache_mode=force_custom_plan"
+    },
+    pool_pre_ping=True, 
+)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():

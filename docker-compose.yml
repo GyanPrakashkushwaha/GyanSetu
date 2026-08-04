@@ -6,11 +6,10 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://gyan_user:gyan_pass@db:5432/gyansetu_db
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - db
-      - redis
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      # - db
+      # - redis
     volumes:
       - .:/app
       # - ./uploaded_files:/app/uploaded_files
@@ -20,32 +19,32 @@ services:
     container_name: gyansetu_celery
     command: celery -A api.celery_app.celery_app worker --loglevel=info
     environment:
-      - DATABASE_URL=postgresql://gyan_user:gyan_pass@db:5432/gyansetu_db
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - redis
-      - db
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+    # depends_on:
+      # - redis
+      # - db
     volumes:
       - .:/app
       # - ./uploaded_files:/app/uploaded_files
 
-  db:
-    image: pgvector/pgvector:pg16
-    container_name: gyansetu_postgres
-    environment:
-      POSTGRES_USER: gyan_user
-      POSTGRES_PASSWORD: gyan_pass
-      POSTGRES_DB: gyansetu_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data 
+  # db:
+  #   image: pgvector/pgvector:pg16
+  #   container_name: gyansetu_postgres
+  #   environment:
+  #     POSTGRES_USER: gyan_user
+  #     POSTGRES_PASSWORD: gyan_pass
+  #     POSTGRES_DB: gyansetu_db
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data 
 
-  redis:
-    image: redis:alpine
-    container_name: gyansetu_redis
-    ports:
-      - "6379:6379"
+  # redis:
+  #   image: redis:alpine
+  #   container_name: gyansetu_redis
+  #   ports:
+  #     - "6379:6379"
 
-volumes:
-  postgres_data:
+# volumes:
+#   postgres_data:

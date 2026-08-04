@@ -16,7 +16,8 @@ safe_schemas = {
     ('models.schemas', 'LearningGapAnalysis'),
     ('models.schemas', 'TeachingPlan'),
     ('models.schemas', 'ExtractedKnowledge'),
-    ('models.schemas', 'PeriodContent')
+    ('models.schemas', 'PeriodContent'),
+    ('models.schemas', 'TeachingPeriod')
 }
 custom_serializer = JsonPlusSerializer(allowed_msgpack_modules=safe_schemas)
 
@@ -29,8 +30,12 @@ def safe_serialize(model):
 def run_background_pipeline(self, job_id: str, file_path: str, human_feedback: str = None):
     app_logger.info(f"Worker picked up job {job_id}")
     
-    with psycopg_pool.ConnectionPool(conninfo=DB_CONNECTION_STRING, kwargs={"autocommit": True}) as pool:
-        
+    pool_kwargs = {
+        "autocommit": True,
+        "prepare_threshold": 0
+    }
+    with psycopg_pool.ConnectionPool(conninfo=DB_CONNECTION_STRING, kwargs=pool_kwargs) as pool:
+            
         doc_parser = DocumentParser()
         raw_text = doc_parser.parse_document(Path(file_path))        
         checkpointer = PostgresSaver(pool, serde=custom_serializer)
